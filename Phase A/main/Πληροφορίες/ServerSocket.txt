@@ -1,0 +1,33 @@
+Τι είναι το ServerSocket στην Java
+
+    Το ServerSocket είναι η “πόρτα” του υπολογιστή σου που ακούει αιτήματα από άλλα προγράμματα μέσω δικτύου.
+
+    Σκεψου το σαν ένα τηλέφωνο:
+
+        Ο Server (ο Worker σου) βάζει το τηλέφωνο στο τραπέζι (ServerSocket)
+
+        Όποιος θέλει να στείλει αίτημα, “καλεί” το τηλέφωνο (δηλαδή ανοίγει ένα Socket)
+
+        Ο Server σηκώνει το τηλέφωνο και μιλάει με τον πελάτη (Master)
+
+    Παραδείγματα χρήσης
+        int port = 5001;                 // η “πόρτα” που ακούμε
+        ServerSocket server = new ServerSocket(port);
+
+        while(true){
+            Socket masterSocket = server.accept();  // περιμένει κάποιον να καλέσει
+            System.out.println("Master connected!");
+
+            // μετά μπορείς να διαβάσεις/γράψεις δεδομένα μέσω streams
+            InputStream in = masterSocket.getInputStream();
+            OutputStream out = masterSocket.getOutputStream();
+        }
+    Σχέση με Socket
+
+        ServerSocket → ο Worker ακούει για εισερχόμενα connections
+
+        Socket → το “κανάλι” επικοινωνίας μεταξύ Worker και Master
+
+        Κάθε φορά που το server.accept() επιστρέφει, δημιουργεί νέο Socket για να μιλήσει με έναν συγκεκριμένο Master, ενώ το ServerSocket συνεχίζει να ακούει για νέες συνδέσεις.
+
+💡 Αυτό είναι και το reason που χρησιμοποιούμε threads: κάθε connection (Master) θέλουμε να εξυπηρετείται ταυτόχρονα.

@@ -1,0 +1,11 @@
+{
+  "name": "CyberPoker",
+  "provider": "NeonGaming",
+  "stars": 4,
+  "voteNo": 25,
+  "logoPath": "data/logos/cyber_poker.png",
+  "minBet": 5.0,
+  "maxBet": 500,
+  "riskLevel": "HIGH",
+  "hashKey": "CyberPoker"
+}

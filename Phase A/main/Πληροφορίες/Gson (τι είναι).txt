@@ -1,0 +1,29 @@
+Το Gson είναι μια βιβλιοθήκη της Google που χειρίζεται JSON σε Java. 🌟
+
+Με απλά λόγια:
+
+    Μετατρέπει αντικείμενα Java σε JSON → serialization
+
+    Μετατρέπει JSON σε αντικείμενα Java → deserialization
+
+    1️⃣ JSON → Object (Deserialization)
+
+Στην εργασία σου:
+
+    String json = "{ \"name\": \"LuckySlots\", \"provider\": \"ProviderA\", ... }";
+
+Με Gson:
+
+    Gson gson = new Gson();
+    Game game = gson.fromJson(json, Game.class);
+
+✅ Τι γίνεται εδώ:
+
+    Το Gson διαβάζει τη συμβολοσειρά json.
+
+    Κοιτάει τα πεδία του Game (name, provider, stars κλπ.)
+
+    Δημιουργεί ένα νέο αντικείμενο Game με τις τιμές από το JSON.
+
+    Το αποτέλεσμα είναι ένα πλήρες αντικείμενο Java, που μπορείς να χρησιμοποιήσεις απευθείας στον Worker.
+

@@ -1,0 +1,11 @@
+{
+  "name": "LuckySlots",
+  "provider": "OmniSlot",
+  "stars": 4,
+  "voteNo":10,
+  "logoPath": "data/logos/lucky_slots.png",
+  "minBet": 0.1,
+  "maxBet": 10,
+  "riskLevel": "LOW",
+  "hashKey": "luck22134213luck"
+}

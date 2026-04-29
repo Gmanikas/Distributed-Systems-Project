@@ -1,0 +1,11 @@
+{
+  "name": "FruitBlast",
+  "provider": "OldSchoolGames",
+  "stars": 3,
+  "voteNo": 150,
+  "logoPath": "data/logos/fruit_blast.png",
+  "minBet": 1,
+  "maxBet": 50,
+  "riskLevel": "MEDIUM",
+  "hashKey": "FruitBlaster83289"
+}

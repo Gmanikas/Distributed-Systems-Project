@@ -1,0 +1,37 @@
+1️⃣ «Οι Workers πρέπει να είναι πολυνηματικοί»
+
+Αυτό σημαίνει:
+
+    Ένας Worker δεν χειρίζεται μόνο ένα request κάθε φορά.
+    Πρέπει να μπορεί να εξυπηρετεί πολλά requests ταυτόχρονα από τον Master.
+
+Άρα η δομή είναι:
+
+    Worker
+       |
+       |-- WorkerThread (request 1)
+       |-- WorkerThread (request 2)
+       |-- WorkerThread (request 3)
+
+Πρακτικά τι κάνεις:
+
+    1️⃣ Ο Worker ανοίγει ServerSocket
+
+    2️⃣ Περιμένει συνδέσεις από τον Master
+
+    3️⃣ Για κάθε σύνδεση:
+
+    accept()
+    ↓
+    δημιουργία WorkerThread
+    ↓
+    start()
+
+Δηλαδή λογικά:
+
+    while(true)
+        accept connection
+        create WorkerThread
+        start thread
+
+    Έτσι ο Worker μπορεί να επεξεργάζεται πολλά requests ταυτόχρονα.
