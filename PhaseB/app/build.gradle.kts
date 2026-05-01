@@ -43,4 +43,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
+    // Source: https://mvnrepository.com/artifact/org.json/json
+    implementation("org.json:json:20251224")
 }

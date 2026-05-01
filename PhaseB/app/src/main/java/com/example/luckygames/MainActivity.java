@@ -1,18 +1,17 @@
 package com.example.luckygames;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import Android.os.Bundle;
+import Androidx.activity.EdgeToEdge;
+import Androidx.appcompat.app.AppCompatActivity;
+import Androidx.core.graphics.Insets;
+import Androidx.core.view.ViewCompat;
+import Androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState); // Edw xekinaei to app
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

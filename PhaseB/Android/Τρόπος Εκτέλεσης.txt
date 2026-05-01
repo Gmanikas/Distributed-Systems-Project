@@ -1,0 +1,5 @@
+Android
+
+javac -d target/classes Android/*.java 
+
+java -cp "target/classes" Android.AndroidServer
