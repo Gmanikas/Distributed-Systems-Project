@@ -1,11 +1,11 @@
 package com.example.luckygames;
 
-import Android.os.Bundle;
-import Androidx.activity.EdgeToEdge;
-import Androidx.appcompat.app.AppCompatActivity;
-import Androidx.core.graphics.Insets;
-import Androidx.core.view.ViewCompat;
-import Androidx.core.view.WindowInsetsCompat;
+import android.os.Bundle;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 

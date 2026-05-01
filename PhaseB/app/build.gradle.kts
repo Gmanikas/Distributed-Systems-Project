@@ -2,13 +2,15 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 android {
     namespace = "com.example.luckygames"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.luckygames"
