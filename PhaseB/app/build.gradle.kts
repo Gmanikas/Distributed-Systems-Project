@@ -2,15 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
-}
-
 android {
     namespace = "com.example.luckygames"
-    compileSdk = 35
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.luckygames"
@@ -42,9 +40,9 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)
     implementation(libs.material)
+    implementation(libs.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
-    // Source: https://mvnrepository.com/artifact/org.json/json
-    implementation("org.json:json:20251224")
+
 }
