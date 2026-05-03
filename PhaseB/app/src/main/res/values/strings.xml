@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LuckyGames</string>
+    <string name="fetch">Fetch</string>
+    <string name="username">Username</string>
 </resources>

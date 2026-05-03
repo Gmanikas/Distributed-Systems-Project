@@ -1,6 +1,13 @@
 package com.example.luckygames;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+
+import android.view.View;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +15,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.luckygames.shared.models.MyLinkedList;
+
 public class MainActivity extends AppCompatActivity {
+
+    MainActivityCommunicationThread communicationThread;
+
+    private MyLinkedList<String> toDoList;
+    private final String IP = "10.0.2.2";
+    private final int PORT = 8080;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +35,36 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        toDoList = new MyLinkedList<>(100); // Dhmiourgia ths listas, mesw tis opoias tha stelnoume ta request tou app
+
+        // Dhmioyrgia tou Thread
+        communicationThread = new MainActivityCommunicationThread(IP, PORT, toDoList);
+        communicationThread.start();
+
     }
+
+    @SuppressLint("SetTextI18n")
+    public void fetch(View v) {
+        v.setEnabled(false);
+        Log.d("Success", "Button Disabled!"); // Emfanizei sto Logcat kapoio output
+
+        Button vButton = (Button) v; // Metatrepoume to View se Button. Etsi xekleidwnontai kialles leitourgies
+                                     // To Button einai paidi tou View
+        vButton.setText("Clicked");
+
+        try {
+            toDoList.put("SEARCH");
+        } catch (InterruptedException e) {
+            Log.d("ERROR when adding to toDoList", e.getMessage());
+        }
+    }
+
+    public void handleUsernameText(View v) {
+        EditText usernameView = findViewById(R.id.usernameText);
+        String username = usernameView.getText().toString();
+        //usernameView.setEnabled(false);
+        Log.d("Username", username);
+    }
+
 }

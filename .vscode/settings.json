@@ -1,6 +1,6 @@
 {
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "Phase A/main/lib/gson-2.13.2.jar"
+        "PhaseA/main/lib/gson-2.13.2.jar"
     ]
 }

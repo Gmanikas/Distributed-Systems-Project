@@ -28,6 +28,7 @@ public class AndroidServer {
 
             String base64 = Base64.getEncoder().encodeToString(imageBytes);
             
+            return base64;
             //System.out.println(base64);
 
         } catch (FileNotFoundException e) {
