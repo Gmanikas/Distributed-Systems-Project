@@ -60,11 +60,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void handleUsernameText(View v) {
-        EditText usernameView = findViewById(R.id.usernameText);
-        String username = usernameView.getText().toString();
+    public void handlePlayerIdText(View v) {
+        EditText playerIdView = findViewById(R.id.playerIdText);
+        String playerId = playerIdView.getText().toString();
+        try {
+            toDoList.put("LOGIN|"  + playerId);
+        } catch (InterruptedException e) {
+            Log.d("ERROR when adding to toDoList", e.getMessage());
+        }
         //usernameView.setEnabled(false);
-        Log.d("Username", username);
+        Log.d("Username", playerId);
     }
 
 }

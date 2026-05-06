@@ -51,6 +51,35 @@ public class MainActivityCommunicationThread extends Thread {
                     response = in.readLine();
                     Log.d("Success", "Received response: " + response);
 
+                    if (response == null || response.isEmpty()) {
+                        Log.d("ERROR", "No response received from Android Server for the outcome of the command that was sent");
+                        return;
+                    }
+                    String[] data = response.split("\\|");
+
+                    if (data.length != 2) {
+                        Log.d("ERROR", "Wrong response format was sent from Android Server");
+                        return;
+                    }
+                    String result = data[0].trim().toUpperCase();
+                    String typeOfResult = data[1].trim();
+
+                    switch (result) {
+                        case "OK":
+                            switch (typeOfResult) {
+                                case "":
+//                                    runOnUiThread(() -> {
+//
+//                                    });
+                            }
+                        case "ERROR":
+                            switch (typeOfResult) {
+                                case "No username entered":
+                                    // ...
+                            }
+                    }
+
+
 //                    runOnUiThread(() -> {
 //                        // This part jumps back to the Main Thread safely
 //                        Toast.makeText(context, "Data Sent!", Toast.LENGTH_SHORT).show();
