@@ -94,7 +94,7 @@ public class PlayerClient {
         try (Socket socket = new Socket(HOST, PORT);
              PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
+      
             out.println(request);
             String response = in.readLine();
 

@@ -1,0 +1,9 @@
+--Android--
+
+cd PhaseB
+cd BackendConnection
+cd main
+
+javac -d target/classes src/Android/*.java src/shared/models/*.java
+
+java -cp "target/classes" Android.AndroidServer

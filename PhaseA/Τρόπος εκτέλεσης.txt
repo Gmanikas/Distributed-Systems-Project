@@ -1,39 +1,57 @@
-Reducer
+--Reducer--
+
+cd PhaseA
+cd main
 
 javac -d target/classes src/Reducer/*.java src/shared/models/*.java -cp "lib/*;src"  
 
 java -cp "lib/*;target/classes" Reducer.ReducerServer
 
 
-SRG
+--SRG--
+
+cd PhaseA
+cd main
 
 javac -d target/classes src/SRG/*.java src/shared/models/*.java -cp "lib/*;src"
 
 java -cp "lib/*;target/classes" SRG.SRGServer
 
 
-Worker
+--Worker--
+
+cd PhaseA
+cd main
 
 javac -d target/classes src/Worker/*.java src/shared/models/*.java -cp "lib/*;src"
 
 java -cp "lib/*;target/classes" Worker.Worker 6001 6002 6003 6004 6005
 
 
-Master
+--Master--
+
+cd PhaseA
+cd main
 
 javac -d target/classes src/Master/*.java src/shared/models/*.java -cp "lib/*;src"
 
 java -cp "lib/*;target/classes" Master.MasterServer resources/workers.txt
 
 
-Manager
+--Manager--
+
+cd PhaseA
+cd main
 
 javac -d target/classes src/Manager/*.java src/shared/models/*.java -cp "lib/*;src"
 
 java -cp "lib/*;target/classes" Manager.ManagerClient
 
 
-Player
+--Player--
+
+cd PhaseA
+cd main
 
 javac -d target/classes src/Player/*.java src/shared/models/*.java -cp "lib/*;src"
 
