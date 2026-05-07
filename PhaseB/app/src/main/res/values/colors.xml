@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- App Theme Colors -->
+    <color name="colorPrimary">#1A237E</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorBackground">#F5F5F5</color>
+
+    <!-- Text Colors -->
+    <color name="colorText">#212121</color>
+    <color name="colorTextSecondary">#757575</color>
+
+    <!-- Status Colors -->
+    <color name="colorWin">#4CAF50</color>
 </resources>

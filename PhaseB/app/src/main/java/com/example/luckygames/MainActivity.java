@@ -60,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void handlePlayerIdText(View v) {
-        EditText playerIdView = findViewById(R.id.playerIdText);
-        String playerId = playerIdView.getText().toString();
-        try {
-            toDoList.put("LOGIN|"  + playerId);
-        } catch (InterruptedException e) {
-            Log.d("ERROR when adding to toDoList", e.getMessage());
-        }
-        //usernameView.setEnabled(false);
-        Log.d("Username", playerId);
-    }
+//    public void handlePlayerIdText(View v) {
+//        EditText playerIdView = findViewById(R.id.playerIdText);
+//        String playerId = playerIdView.getText().toString();
+//        try {
+//            toDoList.put("LOGIN|"  + playerId);
+//        } catch (InterruptedException e) {
+//            Log.d("ERROR when adding to toDoList", e.getMessage());
+//        }
+//        //usernameView.setEnabled(false);
+//        Log.d("Username", playerId);
+//    }
 
 }

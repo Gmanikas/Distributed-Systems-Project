@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Εικονίδιο Παιχνιδιού -->
+        <TextView
+            android:id="@+id/tvGameIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@android:drawable/screen_background_light_transparent"
+            android:gravity="center"
+            android:text="🎰"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/tvGameName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cyber Poker"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvGameRisk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Risk: MEDIUM"
+                android:textSize="12sp"
+                android:textColor="@color/colorTextSecondary" />
+                
+            <TextView
+                android:id="@+id/tvGameRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⭐⭐⭐⭐"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Jackpot / Ποσό -->
+        <TextView
+            android:id="@+id/tvGameJackpot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20x"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:background="@android:drawable/editbox_background"
+            android:padding="8dp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
+

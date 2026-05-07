@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Διόρθωση Namespace & Render Problem -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Τα Στατιστικά μου"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Συνολικό Κέρδος/Ζημιά με σωστό Contrast -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="20dp"
+        android:elevation="2dp"
+        android:layout_marginBottom="24dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ΣΥΝΟΛΙΚΟ P/L"
+            android:textSize="12sp"
+            android:textColor="@color/colorTextSecondary" />
+
+        <TextView
+            android:id="@+id/tvTotalProfitLoss"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+0.00 FUN"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorWin" />
+    </LinearLayout>
+
+    <!-- Λεπτομέρειες -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ανάλυση Παιχνιδιών"
+        android:textColor="@color/colorText"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Εδώ θα μπορούσε να μπει ένα RecyclerView ή απλά Textview για data -->
+    <TextView
+        android:id="@+id/tvStatsDetails"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Φόρτωση δεδομένων..."
+        android:textColor="@color/colorText"
+        android:lineSpacingExtra="4dp"/>
+
+    <!-- Κουμπί Ανανέωσης με σωστό Contrast (Λευκό κείμενο σε σκούρο φόντο) -->
+    <Button
+        android:id="@+id/btnRefreshStats"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="ΑΝΑΝΕΩΣΗ"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>
+
+
