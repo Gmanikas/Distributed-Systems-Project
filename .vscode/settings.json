@@ -2,5 +2,6 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "PhaseA/main/lib/gson-2.13.2.jar"
-    ]
+    ],
+    "java.project.sourcePaths": []
 }

@@ -23,7 +23,7 @@ java -cp "lib/*;target/classes" SRG.SRGServer
 cd PhaseA
 cd main
 
-javac -d target/classes src/Worker/*.java src/shared/models/*.java -cp "lib/*;src"
+javac -cp "lib/*;src" -d target/classes src/Worker/*.java src/shared/models/*.java 
 
 java -cp "lib/*;target/classes" Worker.Worker 6001 6002 6003 6004 6005
 

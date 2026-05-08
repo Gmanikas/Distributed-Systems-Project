@@ -4,6 +4,6 @@ cd PhaseB
 cd BackendConnection
 cd main
 
-javac -d target/classes src/Android/*.java src/shared/models/*.java
+javac -d target/classes src/Android/*.java src/shared/models/*.java -cp "lib/*;src"
 
-java -cp "target/classes" Android.AndroidServer
+java -cp "lib/*;target/classes" Android.AndroidServer
