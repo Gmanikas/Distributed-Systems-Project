@@ -28,7 +28,6 @@ public class AndroidClient {
     
     private static final Gson gson = new Gson();
 
-    private String response = "";
 
     public AndroidClient(AndroidThread thread, Socket socket, PrintWriter out, BufferedReader in) {
         this.androidThread = thread;
@@ -39,7 +38,8 @@ public class AndroidClient {
 
 
     public String handleLogin(String playerId) {
-        
+        String response;
+
         if (playerId == null || playerId.isEmpty()) {
             response = "ERROR|No playerId entered";
         } else {
@@ -53,13 +53,16 @@ public class AndroidClient {
 
 
     public String handleSearch(String payload) { // Το Payload θα ΄ρχει τη μορφή 4,$$$,high
-        
+        String response;
+
         if (payload == null || payload.isEmpty()) {
+            System.err.println("No filters where received.");
             response = "ERROR|No search filters entered";
         } else {
             String[] data = payload.split(",");
             
             if (data.length != 3) {
+                System.err.println("Wrong filters format was received.");
                 response = "ERROR|Filters sent don't match the correct format";
             } else {
                 int stars = Integer.parseInt(data[0].trim());
@@ -87,25 +90,27 @@ public class AndroidClient {
 
     private String sendSearch(SearchFilters searchFilters) {
         String request = "SEARCH|" + gson.toJson(searchFilters);
+        String reply;
 
         try {
             toMaster.println(request);
 
-            String response = fromMaster.readLine();
+            reply = fromMaster.readLine();
 
-            if (response == null || response.startsWith("ERROR")) {
-                System.err.println("ERROR while executing the Search. Received " + response + " response from Master.");
+            if (reply == null || reply.startsWith("ERROR")) {
+                System.err.println("ERROR while executing the Search. Received " + reply + " response from Master.");
                 return "";
             }
 
             // Μετατροπή της JSON λίστας σε αντικείμενα Game
             //java.lang.reflect.Type listType = new TypeToken<ArrayList<Game>>(){}.getType();
             //return gson.fromJson(response, listType);
-            return response;
+            return reply;
 
 
         } catch (IOException e) {
-            System.err.println("ERROR while sending the Search request to Master. Details: " + e.getMessage());
+            System.err.println("ERROR while sending the Search request to Master. Details: " + e.getMessage() + "\n");
+            e.printStackTrace();
             return "";
         }
     }
@@ -113,7 +118,8 @@ public class AndroidClient {
 
 
     public String handlePlay(String payload) { // GameName,BetAmount
-        
+        String response;
+
         if (payload == null || payload.isEmpty()) {
             response = "ERROR|No game name and bet amount was entered";
         } else {
@@ -170,18 +176,19 @@ public class AndroidClient {
 
     private double sendPlay(Play p) {
         String request = "PLAY|" + gson.toJson(p);
+        String reply;
 
         try {
             toMaster.println(request);
 
-            String response = fromMaster.readLine();
+            reply = fromMaster.readLine();
 
-            if (response == null || response.startsWith("ERROR")) {
-                System.err.println("ERROR while executing the Play. Received " + (response != null ? response : "no response" ) + " from Master.");
+            if (reply == null || reply.startsWith("ERROR")) {
+                System.err.println("ERROR while executing the Play. Received " + (reply != null ? reply : "no response" ) + " from Master.");
                 return -1.0;
             }
         
-            return Double.parseDouble(response);
+            return Double.parseDouble(reply);
 
         } catch (IOException e) {
             System.err.println("ERROR while sending the Play request to Master. Details: " + e.getMessage());
@@ -196,18 +203,72 @@ public class AndroidClient {
 
 
     public String handleAddBalance(String payload) {
+        String response;
 
+        try{
+            double amountToAdd = Double.parseDouble(payload);
+
+            if (amountToAdd <= 0) {
+                System.err.println("Deposit amount needs to be a positive number.");
+                response = "ERROR|Amount needs to be positive";
+            } else {
+                String currentPlayer = androidThread.getCurrentPlayerId();
+                boolean jobDone = sendAddBalance(currentPlayer, amountToAdd);
+
+                if (jobDone) {
+                    synchronized (androidThread.balanceLock) {
+                        double currentBalance = androidThread.getCurrentPlayerBalance();
+                        currentBalance += amountToAdd;
+                        androidThread.setCurrentPlayerBalance(currentBalance);
+                    }
+                    System.out.println("Balance updated successfully.");
+                    response = "OK|Balance updated";
+                } else {
+                    System.err.println("Update failed. Check server limits (Max 5000) or connection.");
+                    response = "ERROR|Server limits reached or connection was lost";
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Invalid amount format.");
+            response = "ERROR|Invalid amount format";
+        }
         return response;
+    }
+
+    private boolean sendAddBalance(String playerId, double amount) {
+        String request = "ADD_BALANCE|" + playerId + "|" + amount;
+        String reply;
+
+        try {
+            toMaster.println(request);
+
+            reply = fromMaster.readLine();
+            
+            if (reply != null && reply.startsWith("SUCCESS")) {
+                //System.out.println(reply.replace("SUCCESS|", ""));
+                return true;
+            } else {
+                //if (reply != null) {
+                    //System.err.println(reply.replace("ERROR|", ""));
+                //}
+                return false;
+            }
+        } catch (IOException e) {
+            System.err.println("ERROR while sending Add Balance request to Master. Details: " + e.getMessage());
+            return false;
+        }
     }
 
     public double getBalance(String payload) {
 
         return 0.0;
     }
+
     
+
     public String handleRating(String payload) {
 
-        return response;
+        return "";
     } 
 
     public boolean gameExists(String gameName) {

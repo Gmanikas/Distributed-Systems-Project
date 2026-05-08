@@ -65,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
 //        String playerId = playerIdView.getText().toString();
         try {
             //toDoList.put("LOGIN|"  + playerId);
-            toDoList.put("PLAY|playerId");
+            toDoList.put("LOGIN|123");
+            toDoList.put("ADD_BALANCE|100");
+            toDoList.put("SEARCH|4");
+            toDoList.put("SEARCH");
+            toDoList.put("SEARCH|");
+            toDoList.put("SEARCH|4,$$$,high");
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());
         }

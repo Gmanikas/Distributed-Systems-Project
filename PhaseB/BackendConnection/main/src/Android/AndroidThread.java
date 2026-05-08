@@ -1,13 +1,13 @@
 package Android;
 
-import java.io.IOException;
-
 import java.net.Socket;
 
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.IOException;
+
 
 public class AndroidThread extends Thread {
     
@@ -56,8 +56,16 @@ public class AndroidThread extends Thread {
                         System.out.println("---Lost connection to App---"); // Το message γίνεται null μόνο αν πέσει η γραμμή, ή αν στείλουμε εμείς το null
                         return;
                     }
+                    
+                    String[] data = message.split("\\|", -1); // LOGIN|playerId ή SEARCH|stars,risk,category
+                                                              // Το -1 κάνει το split να μην πετάει ERROR όταν το δεν υπάρχει |, θέτοντας απλά data[0] = message
 
-                    String[] data = message.split("\\|"); // LOGIN|playerId ή SEARCH|stars,risk,category
+                    if (data.length == 1) {
+                        System.err.println("Message received from the App does not contain |. Moving on...");
+                        System.out.println("Sent the following response to the App: No \"|\" detected inside the message\n");
+                        outToApp.println("No \"|\" detected inside the message");
+                        continue;
+                    }
 
                     String command = data[0].trim().toUpperCase();
                     String payload = data[1].trim();
@@ -73,7 +81,7 @@ public class AndroidThread extends Thread {
                     }
 
 
-                    System.out.println("Sent response to the App: " + response + "\n");
+                    System.out.println("Sent the following response to the App: " + response + "\n");
                     outToApp.println(response);
 
                 }
