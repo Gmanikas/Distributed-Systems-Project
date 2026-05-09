@@ -65,13 +65,14 @@ public class MainActivity extends AppCompatActivity {
 //        String playerId = playerIdView.getText().toString();
         try {
             //toDoList.put("LOGIN|"  + playerId);
-            toDoList.put("LOGIN|123");
-            toDoList.put("ADD_BALANCE|100");
-            toDoList.put("SEARCH|4");
-            toDoList.put("SEARCH");
-            toDoList.put("SEARCH|");
-            toDoList.put("PLAY|CyberPoker,30");
-            toDoList.put("SEARCH|4,$$$,high");
+//            toDoList.put("LOGIN|123");
+//            toDoList.put("ADD_BALANCE|100");
+//            toDoList.put("SEARCH|4");
+//            toDoList.put("SEARCH");
+//            toDoList.put("SEARCH|");
+//            toDoList.put("PLAY|CyberPoker,30");
+//            toDoList.put("SEARCH|4,$$$,high");
+            toDoList.put("RATE|CyberPoker,4");
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());
         }

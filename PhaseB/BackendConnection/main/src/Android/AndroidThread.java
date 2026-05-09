@@ -43,6 +43,8 @@ public class AndroidThread extends Thread {
 
                 message = inFromApp.readLine();
 
+                System.out.println("--------------------------------------------\n");
+
                 if (message != null) {
                     System.out.println("->Received message from the App: " + message);
                 } else {
@@ -54,7 +56,7 @@ public class AndroidThread extends Thread {
                                                           // Το -1 κάνει το split να μην πετάει ERROR όταν το δεν υπάρχει |, θέτοντας απλά data[0] = message
                 if (data.length == 1) {
                     System.err.println("Message received from the App does not contain |. Moving on...");
-                    System.out.println("Sent the following response to the App: No \"|\" detected inside the message\n");
+                    System.out.println("->Sent the following response to the App: No \"|\" detected inside the message\n");
                     outToApp.println("No \"|\" detected inside the message");
                     continue;
                 }
@@ -64,13 +66,13 @@ public class AndroidThread extends Thread {
                 System.out.println("command: " + command + ", payload: " + payload);
                 
                 switch (command) {
-                    case "LOGIN"       -> { response = androidClient.handleLogin(payload); syncBalanceWithMasterServer(androidClient); }
+                    case "LOGIN"       -> { response = androidClient.handleLogin(payload); syncBalanceWithMasterServer(androidClient); System.out.println("Player: " + currentPlayerId + ", Balance: " + currentPlayerBalance); }
                     case "SEARCH"      -> response = androidClient.handleSearch(payload);
                     case "PLAY"        -> response = androidClient.handlePlay(payload);
-                    case "ADD_BALANCE" -> response = androidClient.handleAddBalance(payload);
+                    case "ADD_BALANCE" -> { response = androidClient.handleAddBalance(payload); System.out.println("Player: " + currentPlayerId + ", Balance: " + currentPlayerBalance); }
                     case "RATE"        -> response = androidClient.handleRating(payload);
                 }
-                System.out.println("Sent the following response to the App: " + response + "\n\n");
+                System.out.println("->Sent the following response to the App: " + response + "\n");
                 outToApp.println(response);
             }
         } catch (IOException e) {

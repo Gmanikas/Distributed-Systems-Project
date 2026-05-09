@@ -46,34 +46,39 @@ public class AndroidClient {
 
 
 
-    public String handleSearch(String payload) { // Το Payload θα ΄ρχει τη μορφή 4,$$$,high
+    public String handleSearch(String payload) { // payload = 4,$$$,high
         String response;
 
         if (payload == null || payload.isEmpty()) {
             System.err.println("No filters where received.");
             response = "ERROR|No search filters entered";
         } else {
-            String[] data = payload.split(",");
+            String[] data = payload.split(",", -1);
             
             if (data.length != 3) {
                 System.err.println("Wrong filters format was received.");
                 response = "ERROR|Filters sent don't match the correct format";
             } else {
-                int stars = Integer.parseInt(data[0].trim());
-                String category = data[1].trim();
-                String risk = data[2].trim();
-                SearchFilters searchFilters = new SearchFilters(stars, risk, category);
+                try {
+                    int stars = Integer.parseInt(data[0].trim());
+                    String category = data[1].trim();
+                    String risk = data[2].trim();
+                    SearchFilters searchFilters = new SearchFilters(stars, risk, category);
 
-                System.out.println("MapReduce Search in progress for " + androidThread.getCurrentPlayerId() + "...");
-                
-                String searchResults = sendSearch(searchFilters);
+                    System.out.println("MapReduce Search in progress for " + androidThread.getCurrentPlayerId() + "...");
 
-                if (searchResults == null || searchResults.isEmpty()) {
-                    System.out.println("\n--- No games found matching the criteria ---\n");
-                    response = "OK|No games found matching the criteria";
-                } else {
-                    System.out.println("\n--- [Search Results] ---\n" + searchResults);
-                    response = "OK|" + searchResults;
+                    String searchResults = sendSearch(searchFilters);
+
+                    if (searchResults == null || searchResults.isEmpty()) {
+                        System.out.println("\n--- No games found matching the criteria ---\n");
+                        response = "OK|No games found matching the criteria";
+                    } else {
+                        System.out.println("\n--- [Search Results] ---\n" + searchResults);
+                        response = "OK|" + searchResults;
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid stars format");
+                    response = "ERROR|Invalid stars format";
                 }
             }
 
@@ -108,7 +113,7 @@ public class AndroidClient {
 
 
         } catch (IOException e) {
-            System.err.println("ERROR while sending the Search request to Master. Details: " + e.getMessage() + "\n");
+            System.err.println("ERROR while sending SEARCH request to Master. Details: " + e.getMessage() + "\n");
             e.printStackTrace();
             return "";
         }
@@ -116,13 +121,13 @@ public class AndroidClient {
 
 
 
-    public String handlePlay(String payload) { // GameName,BetAmount
+    public String handlePlay(String payload) { // payload = GameName,BetAmount
         String response;
 
         if (payload == null || payload.isEmpty()) {
             response = "ERROR|No game name and bet amount was entered";
         } else {
-            String[] data = payload.split(",");
+            String[] data = payload.split(",", -1);
 
             if (data.length != 2) {
                 response = "ERROR|Data sent does not match with game name and bet amount format";
@@ -133,39 +138,43 @@ public class AndroidClient {
                 if (!gameExists) {
                     response = "ERROR|Game doesn't exist";
                 } else {   
-                    double betAmount = Double.parseDouble(data[1].trim());
+                    try {
+                        double betAmount = Double.parseDouble(data[1].trim());
 
-                    if (betAmount <= 0) {
-                        response = "ERROR|Bet amount needs to be positive";
-                    } else {
-
-                        String currentPlayer = androidThread.getCurrentPlayerId();
-                        double currentBalance = androidThread.getCurrentPlayerBalance(); // Το synchronized είναι στο getter
-                        
-                        synchronized (androidThread.balanceLock) {
-                            if (betAmount > currentBalance) {
-                                response = "ERROR|Insufficient balance";
-                            } else {
-
-                                Play p = new Play(currentPlayer, gameName, betAmount);
-                                double winAmount = sendPlay(p);
-
-                                if (winAmount < 0) { // Πέρνει την αρνητική τιμή -1.0 σε περίπτωση κάποιου ERROR
-                                    response = "ERROR|Something went wrong";
+                        if (betAmount <= 0) {
+                            response = "ERROR|Bet amount needs to be positive";
+                        } else {
+                            String currentPlayer = androidThread.getCurrentPlayerId();
+                            double currentBalance = androidThread.getCurrentPlayerBalance(); // Το synchronized είναι στο getter
+                            
+                            synchronized (androidThread.balanceLock) {
+                                if (betAmount > currentBalance) {
+                                    response = "ERROR|Insufficient balance";
                                 } else {
-                                    currentBalance = (currentBalance - betAmount) + winAmount;
-                                    androidThread.setCurrentPlayerBalance(currentBalance);
-
-                                    if (winAmount > 0) {
-                                        System.out.printf("Result: WIN! Payout: %.2f\n", winAmount);
-                                        response = "OK|WON," + String.valueOf(winAmount);
+                                    Play p = new Play(currentPlayer, gameName, betAmount);
+                                    
+                                    double winAmount = sendPlay(p);
+                                    
+                                    if (winAmount < 0) { // Πέρνει την αρνητική τιμή -1.0 σε περίπτωση κάποιου ERROR
+                                        response = "ERROR|Something went wrong";
                                     } else {
-                                        System.out.println("Result: No win.");
-                                        response = "OK|LOST";
+                                        currentBalance = (currentBalance - betAmount) + winAmount;
+                                        androidThread.setCurrentPlayerBalance(currentBalance);
+                                        
+                                        if (winAmount > 0) {
+                                            System.out.printf("Result: WIN! Payout: %.2f\n", winAmount);
+                                            response = "OK|WON," + String.valueOf(winAmount);
+                                        } else {
+                                            System.out.println("Result: No win.");
+                                            response = "OK|LOST";
+                                        }
                                     }
                                 }
                             }
                         }
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid bet amount format");
+                        response = "ERROR|Invalid bet amount format";
                     }
                 }
             }
@@ -181,7 +190,7 @@ public class AndroidClient {
              PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
              BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
             ){
-            System.out.println("New connection to Master established:" + masterSocket.getInetAddress() + "\n");
+            System.out.println("New connection to Master established:" + masterSocket.getInetAddress());
 
             outToMaster.println(request);
 
@@ -195,7 +204,7 @@ public class AndroidClient {
             return Double.parseDouble(reply);
 
         } catch (IOException e) {
-            System.err.println("ERROR while sending the Play request to Master. Details: " + e.getMessage());
+            System.err.println("ERROR while sending PLAY request to Master. Details: " + e.getMessage());
             return -1.0;
         } catch (NumberFormatException ex) {
             System.err.println("ERROR with different number formats. Details: " + ex.getMessage());
@@ -206,7 +215,7 @@ public class AndroidClient {
     
 
 
-    public String handleAddBalance(String payload) {
+    public String handleAddBalance(String payload) { // payload = 100
         String response;
 
         try{
@@ -247,7 +256,7 @@ public class AndroidClient {
              PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
              BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
             ){
-            System.out.println("New connection to Master established:" + masterSocket.getInetAddress() + "\n");
+            System.out.println("New connection to Master established:" + masterSocket.getInetAddress());
 
             outToMaster.println(request);
 
@@ -263,26 +272,136 @@ public class AndroidClient {
                 return false;
             }
         } catch (IOException e) {
-            System.err.println("ERROR while sending Add Balance request to Master. Details: " + e.getMessage());
+            System.err.println("ERROR while sending ADD_BALANCE request to Master. Details: " + e.getMessage());
             return false;
         }
     }
 
     public double getBalance(String payload) {
+        String request = "GET_BALANCE|" + androidThread.getCurrentPlayerId() + "|0";
+        String reply;
 
+        try (Socket masterSocket = new Socket(androidThread.getMasterHost(), androidThread.getMasterPort());
+             PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
+             BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
+            ){
+            System.out.println("New connection to Master established:" + masterSocket.getInetAddress() + "\n");
+
+            outToMaster.println(request);
+
+            reply = inFromMaster.readLine();
+
+            if (reply != null && reply.startsWith("SUCCESS")) {
+                String[] parts = reply.split("\\|");
+                return Double.parseDouble(parts[1]);
+            }
+        } catch (IOException e) {
+            System.err.println("ERROR while sending GET_BALANCE request to Master. Details: " + e.getMessage());
+        }
         return 0.0;
     }
 
     
 
-    public String handleRating(String payload) {
+    public String handleRating(String payload) { // payload = GameName,4
+        String response;
 
-        return "";
+        if (payload == null || payload.isEmpty()) {
+            System.err.println("No game and rating where received.");
+            response = "ERROR|No game and rating entered";
+        } else {
+            String[] data = payload.split(",", -1);
+
+            if (data.length == 1) {
+                System.err.println("Invalid payload format");
+                response = "ERROR|Invalid payload format";
+            } else {
+                try {
+                    String gameName = data[0].trim();
+                    int stars = Integer.parseInt(data[1].trim());
+
+                    boolean gameExists = gameExists(gameName);
+
+                    if (gameExists) {
+                        String currentPlayer = androidThread.getCurrentPlayerId();
+
+                        GameRating gameRating = new GameRating(currentPlayer, gameName, stars);
+
+                        String result = sendRating(gameRating);
+                        String[] info = result.split("\\|");
+
+                        if (result.startsWith("OK|")) {
+                            String averageGameRating = info[1];
+
+                            String message = stars + " star rating submitted for game: " + gameName + "\n" + averageGameRating;
+                            System.out.println(message);
+
+                            response = "OK|" + message;
+                        } else {
+                            System.err.println(info[1]);
+                            response = result;
+                        }
+                    } else {
+                        System.out.println(gameName + " game does not exist");
+                        response = "ERROR|Game not found";
+                    }
+
+
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid stars rating format");
+                    response = "ERROR|Invalid stars rating format";
+                }
+            }
+        }
+        return response;
     } 
 
-    public boolean gameExists(String gameName) {
+    private String sendRating(GameRating gR) {
+        String request = "RATE|" + gson.toJson(gR);
+        String reply;
 
-        return true;
+        try (Socket masterSocket = new Socket(androidThread.getMasterHost(), androidThread.getMasterPort());
+             PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
+             BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
+            ){
+            System.out.println("New connection to Master established:" + masterSocket.getInetAddress());
+
+            outToMaster.println(request);
+
+            reply = inFromMaster.readLine();
+
+            if (reply.startsWith("SUCCESS")) {
+                String[] parts = reply.split("\\|");
+                reply = "OK|" + parts[1];
+            } else {
+                reply = "ERROR|Rating failed to be submitted";
+            }
+        } catch (IOException e) {
+            System.err.println("ERROR while sending RATE request to Master. Details: " + e.getMessage());
+            reply = "ERROR|Something failed while trying to fetch average rating for game";
+        }
+        return reply;
+    }
+
+
+
+    private boolean gameExists(String gameName) {
+        String request = "GAME_EXISTS|" + gameName;
+        String reply;
+
+        try (Socket masterSocket = new Socket(androidThread.getMasterHost(), androidThread.getMasterPort());
+             PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
+             BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
+            ){
+            outToMaster.println(request);
+
+            reply = inFromMaster.readLine();
+        
+            return reply.equals("YES");
+        } catch (IOException e) {
+            System.err.println("ERROR while sending GAME_EXISTS request to Master. Details: " + e.getMessage());
+        }
+        return false;
     }
 
 }
