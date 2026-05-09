@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_tokens"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="20dp">
+
+    <!-- HEADER: PLAYER INFO & BALANCE ΜΕ ΕΙΚΟΝΙΔΙΑ (ΕΥΘΥΓΡΑΜΜΙΣΜΕΝΑ) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp">
+
+        <TextView
+            android:id="@+id/tvPlayerId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text=" Player ID: (Όνομα)"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_account_box"
+            android:drawablePadding="8dp" />
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text=" Balance: 1000,00 FUN"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_wallet"
+            android:drawablePadding="8dp" />
+    </RelativeLayout>
+
+    <!-- CENTER: SLOT MACHINE (TEXTVIEW MONO) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🎰"
+        android:textSize="100sp"
+        android:gravity="center"
+        android:layout_marginBottom="30dp" />
+
+    <!-- INPUT SECTION (ΕΥΘΥΓΡΑΜΜΙΣΜΕΝΗ ΣΤΟ ΚΕΝΤΡΟ) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="10dp"
+        android:layout_marginBottom="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🪙"
+            android:textSize="30sp"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add amount:"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <!-- Κουτί με μεγάλα γράμματα 48sp -->
+        <EditText
+            android:id="@+id/etAddAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
+            android:background="@android:drawable/editbox_background"
+            android:hint="0"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:inputType="numberDecimal"
+            android:padding="5dp"
+            android:gravity="center"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FUN"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- SUBMIT BUTTON -->
+    <Button
+        android:id="@+id/btnSubmitTokens"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:text="SUBMIT"
+        android:gravity="center"
+        android:backgroundTint="#5C6BC0"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:elevation="4dp" />
+
+</LinearLayout>

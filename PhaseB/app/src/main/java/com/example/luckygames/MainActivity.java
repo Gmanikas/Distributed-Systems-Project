@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        setContentView(R.layout.activity_login);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.login), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -42,6 +42,18 @@ public class MainActivity extends AppCompatActivity {
         communicationThread = new MainActivityCommunicationThread(IP, PORT, toDoList);
         communicationThread.start();
 
+    }
+
+    public void handleLogin(View v) {
+        EditText playerIdView = findViewById(R.id.etPlayerId);
+        String playerId = playerIdView.getText().toString();
+
+        try{
+            toDoList.put("LOGIN|" + playerId);
+        } catch (InterruptedException e) {
+            Log.d("ERROR when adding to toDoList", e.getMessage());
+        }
+        Log.d("PlayerId", "playerId");
     }
 
     @SuppressLint("SetTextI18n")

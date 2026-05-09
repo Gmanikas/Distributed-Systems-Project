@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/login"
+    android:id="@+id/change_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,23 +8,13 @@
     android:padding="32dp"
     android:gravity="center_horizontal">
 
-    <!-- WELCOME TEXT -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WELCOME TO OUR 24/7 CASINO !"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginTop="40dp" />
-
     <!-- SLOT MACHINE ICON -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="🎰"
         android:textSize="100sp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="16dp" />
 
     <!-- TERMINAL TITLE -->
@@ -32,37 +22,48 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CASINO PLAYER TERMINAL"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:fontFamily="monospace"
         android:textStyle="bold"
         android:textColor="#D4AF37"
         android:layout_marginBottom="40dp" />
 
-    <!-- PLAYER ID INPUT (Με μεγαλύτερο hint) -->
-    <EditText
-        android:id="@+id/etPlayerId"
+    <!-- ΟΡΘΟΓΩΝΙΟ ΓΙΑ CHANGE ID -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="65dp"
-        android:onClick="handleLogin"
-        android:hint="Enter Your ID"
-        android:textColorHint="#999999"
-        android:textSize="20sp" 
-        android:inputType="text"
-        android:padding="16dp"
-        android:background="@android:drawable/editbox_background"
-        android:textColor="#000000"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp" />
+        android:orientation="vertical"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:padding="20dp"
+        android:layout_marginBottom="24dp">
 
-    <!-- ΜΠΛΕ ΚΟΥΜΠΙ SUBMIT ΜΕ ΜΑΥΡΑ ΓΡΑΜΜΑΤΑ ΣΤΟ ΚΕΝΤΡΟ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Your ID"
+            android:textSize="14sp"
+            android:textColor="#757575"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etChangePlayerId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="56dp"
+            android:hint="Enter new ID..."
+            android:inputType="text"
+            android:background="@android:drawable/editbox_background"
+            android:padding="12dp"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- SUBMIT BUTTON -->
     <Button
-        android:id="@+id/btnSubmit"
+        android:id="@+id/btnSubmitChange"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:onClick="handleLogin"
         android:text="SUBMIT"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#000000"
         android:backgroundTint="#5C6BC0"

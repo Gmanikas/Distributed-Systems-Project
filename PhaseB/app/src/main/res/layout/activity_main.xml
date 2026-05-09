@@ -4,105 +4,135 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
-    android:padding="24dp"
-    android:gravity="center_horizontal">
+    android:background="#FFFFFF"
+    android:padding="20dp">
 
-    <!-- Καλωσόρισμα & Player ID -->
-    <TextView
-        android:id="@+id/tvWelcome"
+    <!-- HEADER: PLAYER INFO & BALANCE ΜΕ ΕΙΚΟΝΙΔΙΑ (ΕΥΘΥΓΡΑΜΜΙΣΜΕΝΑ) -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Καλώς ήρθες,"
-        android:textSize="18sp"
-        android:textColor="#757575" />
-
-    <TextView
-        android:id="@+id/tvPlayerIdDisplay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Player_123"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#1A237E"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Πλαίσιο Υπολοίπου (Balance) -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@android:drawable/dialog_holo_light_frame"
-        android:padding="20dp"
-        android:layout_marginBottom="40dp"
-        android:gravity="center">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp">
 
         <TextView
+            android:id="@+id/tvPlayerId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ΔΙΑΘΕΣΙΜΑ TOKENS"
-            android:textSize="12sp"
-            android:textColor="#757575" />
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text=" Player ID: (Όνομα)"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_account_box"
+            android:drawablePadding="8dp" />
 
         <TextView
             android:id="@+id/tvBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1000.00 FUN"
-            android:textSize="32sp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text=" Balance: 1000,00 FUN"
+            android:textColor="#000000"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#2E7D32" />
+            android:gravity="center_vertical"
+            android:drawableStart="@drawable/ic_wallet"
+            android:drawablePadding="8dp" />
+    </RelativeLayout>
+
+    <!-- CENTER: SLOT MACHINE IMAGE & TITLE -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🎰"
+            android:textSize="100sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="MAIN MENU"
+            android:textColor="#333333"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
     </LinearLayout>
 
-    <!-- Κουμπί Αναζήτησης -->
-    <Button
-        android:id="@+id/btnSearch"
+    <!-- MENU BUTTONS -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="60dp"
-        android:layout_marginBottom="12dp"
-        android:onClick="handlePlayerIdText"
-        android:text="🔍   ΑΝΑΖΗΤΗΣΗ ΠΑΙΧΝΙΔΙΩΝ"
-        android:backgroundTint="#1A237E"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:paddingHorizontal="10dp">
 
-    <!-- Κουμπί Κατάθεσης -->
-    <Button
-        android:id="@+id/btnAddBalance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="60dp"
-        android:layout_marginBottom="12dp"
-        android:text="💰   ΚΑΤΑΘΕΣΗ FUN"
-        android:backgroundTint="#FF8F00"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginBottom="12dp"
+            android:text="1. SEARCH GAMES"
+            android:backgroundTint="#5C6BC0"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
 
-    <!-- Κουμπί Στατιστικών -->
-    <Button
-        android:id="@+id/btnStats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="60dp"
-        android:layout_marginBottom="30dp"
-        android:text="📊   ΤΑ ΣΤΑΤΙΣΤΙΚΑ ΜΟΥ"
-        android:backgroundTint="#5C6BC0"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginBottom="12dp"
+            android:text="2. PLAY GAME"
+            android:backgroundTint="#5C6BC0"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
 
-    <!-- Κουμπί Αποσύνδεσης -->
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:minWidth="120dp"
-        android:text="ΑΠΟΣΥΝΔΕΣΗ"
-        android:backgroundTint="@android:color/transparent"
-        android:textColor="#C62828"
-        android:textSize="14sp" />
+        <Button
+            android:id="@+id/btnAddTokens"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginBottom="12dp"
+            android:text="3. ADD TOKENS"
+            android:backgroundTint="#5C6BC0"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btnRate"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:layout_marginBottom="12dp"
+            android:text="4. RATE GAME"
+            android:backgroundTint="#5C6BC0"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:text="5. LOGOUT"
+            android:backgroundTint="#EF5350" 
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+    </LinearLayout>
 
 </LinearLayout>
