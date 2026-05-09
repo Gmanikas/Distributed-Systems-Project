@@ -43,11 +43,11 @@ public class AndroidServer {
 
     public static void main(String[] args) {
 
-        ArrayList<String> items = new ArrayList<>();
-        items.add("Item 1");
-        items.add("Item 2");
-        items.add("Item 3");
-        items.add("Item 4");
+        // ArrayList<String> items = new ArrayList<>();
+        // items.add("Item 1");
+        // items.add("Item 2");
+        // items.add("Item 3");
+        // items.add("Item 4");
 
         String image = getImageAsBase64();
 

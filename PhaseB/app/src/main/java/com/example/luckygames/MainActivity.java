@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             toDoList.put("SEARCH|4");
             toDoList.put("SEARCH");
             toDoList.put("SEARCH|");
+            toDoList.put("PLAY|CyberPoker,30");
             toDoList.put("SEARCH|4,$$$,high");
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());

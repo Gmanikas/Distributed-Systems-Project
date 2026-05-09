@@ -6,6 +6,8 @@ import java.net.Socket;
 
 import java.io.PrintWriter;
 import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.IOException;
 
 import java.lang.NumberFormatException;
@@ -19,21 +21,13 @@ import com.google.gson.JsonSyntaxException;
 
 public class AndroidClient {
 
-    private AndroidThread androidThread; 
-    
-    private Socket masterSocket;
-    
-    private PrintWriter toMaster;
-    private BufferedReader fromMaster;
-    
+    private AndroidThread androidThread;
+   
     private static final Gson gson = new Gson();
 
 
-    public AndroidClient(AndroidThread thread, Socket socket, PrintWriter out, BufferedReader in) {
+    public AndroidClient(AndroidThread thread) {
         this.androidThread = thread;
-        this.masterSocket = socket;
-        this.toMaster = out;
-        this.fromMaster = in;
     }
 
 
@@ -66,8 +60,8 @@ public class AndroidClient {
                 response = "ERROR|Filters sent don't match the correct format";
             } else {
                 int stars = Integer.parseInt(data[0].trim());
-                String risk = data[1].trim();
-                String category = data[2].trim();
+                String category = data[1].trim();
+                String risk = data[2].trim();
                 SearchFilters searchFilters = new SearchFilters(stars, risk, category);
 
                 System.out.println("MapReduce Search in progress for " + androidThread.getCurrentPlayerId() + "...");
@@ -92,10 +86,15 @@ public class AndroidClient {
         String request = "SEARCH|" + gson.toJson(searchFilters);
         String reply;
 
-        try {
-            toMaster.println(request);
+        try (Socket masterSocket = new Socket(androidThread.getMasterHost(), androidThread.getMasterPort());
+             PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
+             BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
+            ){
+            System.out.println("New connection to Master established: " + masterSocket.getInetAddress());
+             
+            outToMaster.println(request);
 
-            reply = fromMaster.readLine();
+            reply = inFromMaster.readLine();
 
             if (reply == null || reply.startsWith("ERROR")) {
                 System.err.println("ERROR while executing the Search. Received " + reply + " response from Master.");
@@ -178,10 +177,15 @@ public class AndroidClient {
         String request = "PLAY|" + gson.toJson(p);
         String reply;
 
-        try {
-            toMaster.println(request);
+        try (Socket masterSocket = new Socket(androidThread.getMasterHost(), androidThread.getMasterPort());
+             PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
+             BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
+            ){
+            System.out.println("New connection to Master established:" + masterSocket.getInetAddress() + "\n");
 
-            reply = fromMaster.readLine();
+            outToMaster.println(request);
+
+            reply = inFromMaster.readLine();
 
             if (reply == null || reply.startsWith("ERROR")) {
                 System.err.println("ERROR while executing the Play. Received " + (reply != null ? reply : "no response" ) + " from Master.");
@@ -239,10 +243,15 @@ public class AndroidClient {
         String request = "ADD_BALANCE|" + playerId + "|" + amount;
         String reply;
 
-        try {
-            toMaster.println(request);
+        try (Socket masterSocket = new Socket(androidThread.getMasterHost(), androidThread.getMasterPort());
+             PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
+             BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
+            ){
+            System.out.println("New connection to Master established:" + masterSocket.getInetAddress() + "\n");
 
-            reply = fromMaster.readLine();
+            outToMaster.println(request);
+
+            reply = inFromMaster.readLine();
             
             if (reply != null && reply.startsWith("SUCCESS")) {
                 //System.out.println(reply.replace("SUCCESS|", ""));

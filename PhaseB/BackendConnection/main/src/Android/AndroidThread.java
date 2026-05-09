@@ -34,69 +34,59 @@ public class AndroidThread extends Thread {
              BufferedReader inFromApp = new BufferedReader(new InputStreamReader(androidSocket.getInputStream()));
             ){
             
-            System.out.println("\n\n---New connection to App established: " + androidSocket.getInetAddress() + "---\n");
-            
-            try (Socket masterSocket = new Socket(MASTERHOST, MASTERPORT);
-                 PrintWriter outToMaster = new PrintWriter(new OutputStreamWriter(masterSocket.getOutputStream()), true);
-                 BufferedReader inFromMaster = new BufferedReader(new InputStreamReader(masterSocket.getInputStream()))
-                ){   
+            System.out.println("\n\n---New connection to App established: " + androidSocket.getInetAddress() + "---\n");   
                 
-                AndroidClient androidClient = new AndroidClient(this, masterSocket, outToMaster, inFromMaster);
-                System.out.println("New androidClient created.\n");
+            AndroidClient androidClient = new AndroidClient(this);
+            System.out.println("New androidClient created.\n");
+            
+            while (true) {
 
-                System.out.println("New connection to Master established:" + masterSocket.getInetAddress() + "\n");
+                message = inFromApp.readLine();
 
-                while (true) {
-
-                    message = inFromApp.readLine();
-
-                    if (message != null) {
-                        System.out.println("Received message from the App: " + message);
-                    } else {
-                        System.out.println("---Lost connection to App---"); // Το message γίνεται null μόνο αν πέσει η γραμμή, ή αν στείλουμε εμείς το null
-                        return;
-                    }
-                    
-                    String[] data = message.split("\\|", -1); // LOGIN|playerId ή SEARCH|stars,risk,category
-                                                              // Το -1 κάνει το split να μην πετάει ERROR όταν το δεν υπάρχει |, θέτοντας απλά data[0] = message
-
-                    if (data.length == 1) {
-                        System.err.println("Message received from the App does not contain |. Moving on...");
-                        System.out.println("Sent the following response to the App: No \"|\" detected inside the message\n");
-                        outToApp.println("No \"|\" detected inside the message");
-                        continue;
-                    }
-
-                    String command = data[0].trim().toUpperCase();
-                    String payload = data[1].trim();
-
-                    System.out.println("command: " + command + ", payload: " + payload);
-
-                    switch (command) {
-                        case "LOGIN"       -> { response = androidClient.handleLogin(payload); syncBalanceWithMasterServer(androidClient); }
-                        case "SEARCH"      -> response = androidClient.handleSearch(payload);
-                        case "PLAY"        -> response = androidClient.handlePlay(payload);
-                        case "ADD_BALANCE" -> response = androidClient.handleAddBalance(payload);
-                        case "RATE"        -> response = androidClient.handleRating(payload);
-                    }
-
-
-                    System.out.println("Sent the following response to the App: " + response + "\n");
-                    outToApp.println(response);
-
+                if (message != null) {
+                    System.out.println("->Received message from the App: " + message);
+                } else {
+                    System.out.println("---Lost connection to App---"); // Το message γίνεται null μόνο αν πέσει η γραμμή, ή αν στείλουμε εμείς το null
+                    return;
                 }
-            } catch (IOException e) {
-                System.err.println("Connection to Master was refused. Details:");
-                e.printStackTrace();
+                
+                String[] data = message.split("\\|", -1); // LOGIN|playerId ή SEARCH|stars,risk,category
+                                                          // Το -1 κάνει το split να μην πετάει ERROR όταν το δεν υπάρχει |, θέτοντας απλά data[0] = message
+                if (data.length == 1) {
+                    System.err.println("Message received from the App does not contain |. Moving on...");
+                    System.out.println("Sent the following response to the App: No \"|\" detected inside the message\n");
+                    outToApp.println("No \"|\" detected inside the message");
+                    continue;
+                }
+
+                String command = data[0].trim().toUpperCase();
+                String payload = data[1].trim();
+                System.out.println("command: " + command + ", payload: " + payload);
+                
+                switch (command) {
+                    case "LOGIN"       -> { response = androidClient.handleLogin(payload); syncBalanceWithMasterServer(androidClient); }
+                    case "SEARCH"      -> response = androidClient.handleSearch(payload);
+                    case "PLAY"        -> response = androidClient.handlePlay(payload);
+                    case "ADD_BALANCE" -> response = androidClient.handleAddBalance(payload);
+                    case "RATE"        -> response = androidClient.handleRating(payload);
+                }
+                System.out.println("Sent the following response to the App: " + response + "\n\n");
+                outToApp.println(response);
             }
-
-
         } catch (IOException e) {
             System.err.println("Connection to App was refused. Details:");
             e.printStackTrace();
         }
-
     }
+
+    public String getMasterHost() {
+        return MASTERHOST;
+    }
+
+    public int getMasterPort() {
+        return MASTERPORT;
+    }
+
 
     public void setCurrentPlayerId(String playerId) {
         synchronized (balanceLock) {
@@ -110,6 +100,7 @@ public class AndroidThread extends Thread {
         }
     }
 
+
     public void setCurrentPlayerBalance(double balance) {
         synchronized (balanceLock) {
             currentPlayerBalance = balance;
@@ -121,6 +112,7 @@ public class AndroidThread extends Thread {
             return currentPlayerBalance;
         }
     }
+
 
     public void syncBalanceWithMasterServer(AndroidClient androidClient) {
 
