@@ -1,16 +1,22 @@
 package com.example.luckygames;
 
 import android.annotation.SuppressLint;
+
 import android.os.Bundle;
 
 import android.view.View;
+
 import android.util.Log;
+
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -39,10 +45,30 @@ public class MainActivity extends AppCompatActivity {
         toDoList = new MyLinkedList<>(100); // Dhmiourgia ths listas, mesw tis opoias tha stelnoume ta request tou app
 
         // Dhmioyrgia tou Thread
-        communicationThread = new MainActivityCommunicationThread(IP, PORT, toDoList);
+        communicationThread = new MainActivityCommunicationThread(this, IP, PORT, toDoList);
         communicationThread.start();
 
     }
+
+    public void makeToast(String output) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, output, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void proceed() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+    }
+
+
 
     public void handleLogin(View v) {
         EditText playerIdView = findViewById(R.id.etPlayerId);

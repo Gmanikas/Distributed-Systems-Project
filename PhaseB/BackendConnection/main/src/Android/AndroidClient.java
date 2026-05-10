@@ -38,7 +38,7 @@ public class AndroidClient {
             response = "ERROR|No playerId entered";
         } else {
             androidThread.setCurrentPlayerId(playerId);
-            response = "OK|PlayerId sumbitted";
+            response = "OK|PlayerId submitted";
         }
 
         return response;
@@ -103,19 +103,22 @@ public class AndroidClient {
 
             if (reply == null || reply.startsWith("ERROR")) {
                 System.err.println("ERROR while executing the Search. Received " + reply + " response from Master.");
-                return "";
+                return "ERROR|Failed to complete the Search request";
             }
 
             // Μετατροπή της JSON λίστας σε αντικείμενα Game
             //java.lang.reflect.Type listType = new TypeToken<ArrayList<Game>>(){}.getType();
             //return gson.fromJson(response, listType);
+            String[] info = reply.split("\\|");
+            reply = info[0] + " - " + info[1] + " - " + info[2] + " - " + info[3];
+
             return reply;
 
 
         } catch (IOException e) {
             System.err.println("ERROR while sending SEARCH request to Master. Details: " + e.getMessage() + "\n");
             e.printStackTrace();
-            return "";
+            return "ERROR|Failed to complete the Search request";
         }
     }
 
