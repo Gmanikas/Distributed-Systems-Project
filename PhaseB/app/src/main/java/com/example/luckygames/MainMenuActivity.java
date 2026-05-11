@@ -1,0 +1,85 @@
+package com.example.luckygames;
+
+import android.os.Bundle;
+
+import android.content.Intent;
+import android.widget.Toast;
+import android.view.View;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.example.luckygames.shared.models.MyLinkedList;
+
+public class MainMenuActivity extends AppCompatActivity {
+
+    private CommunicationThread communicationThread;
+
+    private MyLinkedList<String> toDoList;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main_menu);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_menu), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // Sundesh me to Communication Thread
+        ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
+        toDoList = ActivityHandler.getInstance().getToDoList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
+    }
+
+    private void proceed(Class<? extends AppCompatActivity> activityClass) { // Me to Class<...> mporoume na dexomaste opoiadhpote activity
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(MainMenuActivity.this, activityClass);
+                startActivity(i);
+            }
+        });
+    }
+
+    public void handleSearchGames(View v) {
+        this.proceed(SearchActivity.class);
+    }
+
+    public void handlePlayGame(View v) {
+
+    }
+
+    public void handleAddTokens(View v) {
+
+    }
+
+    public void handleRateGame(View v) {
+
+    }
+
+    public void handleLogOut(View v) {
+        ActivityHandler.getInstance().setPendingMessage("Logged out");
+        this.proceed(MainActivity.class);
+    }
+
+//    private void makeToast(String output) {
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(getApplicationContext(), output, Toast.LENGTH_LONG).show();
+//            }
+//        });
+//    }
+
+}

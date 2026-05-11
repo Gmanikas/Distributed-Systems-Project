@@ -6,10 +6,11 @@ import android.os.Bundle;
 
 import android.view.View;
 
+import android.content.Intent;
+
 import android.util.Log;
 
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,11 +26,9 @@ import com.example.luckygames.shared.models.MyLinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainActivityCommunicationThread communicationThread;
+    private CommunicationThread communicationThread;
 
     private MyLinkedList<String> toDoList;
-    private final String IP = "10.0.2.2";
-    private final int PORT = 8080;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +41,33 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        toDoList = new MyLinkedList<>(100); // Dhmiourgia ths listas, mesw tis opoias tha stelnoume ta request tou app
-
-        // Dhmioyrgia tou Thread
-        communicationThread = new MainActivityCommunicationThread(this, IP, PORT, toDoList);
-        communicationThread.start();
-
+        // Sundesh me to Communication Thread
+        ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
+        toDoList = ActivityHandler.getInstance().getToDoList();
     }
 
-    public void makeToast(String output) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, output, Toast.LENGTH_LONG).show();
-            }
-        });
+    @Override
+    protected void onResume() { // Se periptwsh episkepshs tou Activity 2h fora. Kathws exei hdh dhmourghthei, den tha trexei to onCreate()
+        super.onResume();
+        ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
+
+        // Bgazoume mhnuma, giati exei ginei Log Out
+        String message = ActivityHandler.getInstance().getPendingMessage();
+        if (message != null) {
+            // Den xreiazetai runOnUiThread()
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void proceed() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
+                startActivity(i);
             }
         });
     }
-
-
 
     public void handleLogin(View v) {
         EditText playerIdView = findViewById(R.id.etPlayerId);
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());
         }
-        Log.d("PlayerId", "playerId");
+        Log.d("PlayerId", playerId);
     }
 
     @SuppressLint("SetTextI18n")

@@ -62,6 +62,7 @@
         android:id="@+id/btnSubmitChange"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:onClick="handleReLogin"
         android:text="SUBMIT"
         android:textSize="20sp"
         android:textStyle="bold"

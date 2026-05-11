@@ -1,6 +1,9 @@
 package com.example.luckygames;
 
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -11,17 +14,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 import com.example.luckygames.shared.models.MyLinkedList;
-public class MainActivityCommunicationThread extends Thread {
+public class CommunicationThread extends Thread {
 
-    private final MainActivity UI;
+    private AppCompatActivity UI;
     private final String IP;
     private final int PORT;
     private final MyLinkedList<String> toDoList; // Lista opou tha sugkentrwnoume ta request tou app
 
     String response;
 
-    public MainActivityCommunicationThread(MainActivity ui, String ip, int port, MyLinkedList<String> list) {
-        this.UI = ui;
+    public CommunicationThread(String ip, int port, MyLinkedList<String> list) {
+        this.UI = null;
         this.IP = ip;
         this.PORT = port;
         this.toDoList = list;
@@ -69,8 +72,12 @@ public class MainActivityCommunicationThread extends Thread {
                         case "OK":
                             switch (typeOfResult) {
                                 case "PlayerId submitted": // LOGIN
-                                    UI.makeToast("Logged in successfully");
-                                    UI.proceed();
+                                    makeToast("Logged in successfully");
+                                    // Allagh othonhs
+                                    if (UI instanceof MainActivity) {
+                                        ((MainActivity) UI).proceed();
+                                    }
+
                                     break;
                                 case "No games found matching the criteria": // SEARCH
                                     // Pame sto activity_results
@@ -80,12 +87,19 @@ public class MainActivityCommunicationThread extends Thread {
                                     // Deixnoume to apotelesma se neo activity
                                     break;
 
+                                case "Balance updated": // ADD_BALANCE
+                                    makeToast("Balance updated");
+                                    // Epistrefoume sto activity_main
+                                    break;
+
                                 default:
                                     if (typeOfResult.contains("-")) { // SEARCH //O monos tropos na elenxoume an yparxei -
                                         // Pame sto activity_results
-                                    } else if (typeOfResult.startsWith("WON")) { // PLAY // Analoga
+                                    } else if (typeOfResult.startsWith("WON")) { // PLAY // Analogws
                                         String winAmount = typeOfResult.replace("WON,", "");
                                         // Deixnoume to apotelesma se neo activity
+                                    } else if (typeOfResult.contains("star rating")) { // RATE // Analogws
+                                        makeToast(typeOfResult);
                                     }
                                     break;
                             }
@@ -93,64 +107,99 @@ public class MainActivityCommunicationThread extends Thread {
                         case "ERROR":
                             switch (typeOfResult) {
                                 case "No playerId entered": // LOGIN
-                                    UI.makeToast("Failed to login");
+                                    makeToast("Failed to login");
                                     break;
 
                                 case "No search filters entered": // SEARCH
-                                    UI.makeToast("No search filters entered");
+                                    makeToast("No search filters entered");
                                     break;
                                 case "Filters sent don't match the correct format": // SEARCH
-                                    UI.makeToast("Filters sent don't match the correct format");
+                                    makeToast("Filters sent don't match the correct format");
                                     break;
                                 case "Invalid stars format": // SEARCH
-                                    UI.makeToast("Invalid stars format");
+                                    makeToast("Invalid stars format");
                                     break;
                                 case "Failed to complete the Search request": // SEARCH
-                                    UI.makeToast("Failed to complete your request. Try again");
+                                    makeToast("Failed to complete your request. Try again");
                                     // reset to activity_search
                                     break;
 
                                 case "No game name and bet amount was entered": // PLAY
-                                    UI.makeToast("No game name and bet amount were entered");
+                                    makeToast("No game name and bet amount were entered");
                                     break;
                                 case "Data sent does not match with game name and bet amount format": // PLAY
-                                    UI.makeToast("Wrong data format");
+                                    makeToast("Wrong data format");
                                     break;
                                 case "Game doesn't exist": // PLAY
-                                    UI.makeToast("Game doesn't exist");
+                                    makeToast("Game doesn't exist");
                                     break;
                                 case "Bet amount needs to be positive": // PLAY
-                                    UI.makeToast("Bet amount needs to be positive");
+                                    makeToast("Bet amount needs to be positive");
                                     break;
                                 case "Insufficient balance": // PLAY
-                                    UI.makeToast("Insufficient Balance");
+                                    makeToast("Insufficient Balance");
                                     break;
                                 case "Something went wrong": // PLAY
-                                    UI.makeToast("Something went wrong. Try again");
+                                    makeToast("Something went wrong. Try again");
                                     break;
                                 case "Invalid bet amount format": // PLAY
-                                    UI.makeToast("Bet amount needs to be a number");
+                                    makeToast("Bet amount needs to be a number");
+                                    break;
+
+                                case "Amount needs to be positive": // ADD_BALANCE
+                                    makeToast("Amount needs to be positive");
+                                    break;
+                                case "Server limits reached or connection was lost": // ADD_BALANCE
+                                    makeToast("Connection error. Try again");
+                                    break;
+                                case "Invalid amount format": // ADD_BALANCE
+                                    makeToast("Invalid amount format");
+                                    break;
+
+                                case "No game and rating entered": // RATE
+                                    makeToast("No game and rating entered");
+                                    break;
+                                case "Invalid payload format": // RATE
+                                    makeToast("Invalid format");
+                                    break;
+                                case "Game not found": // RATE
+                                    makeToast("Game entered does not exist");
+                                    break;
+                                case "Invalid stars rating format": // RATE
+                                    makeToast("Invalid stars rating format");
+                                    break;
+                                case "Rating failed to be submitted": // RATE
+                                    makeToast("Conection error. Try again");
+                                    break;
+                                case "Something failed while trying to fetch average rating for game": // RATE
+                                    makeToast("Connection error. Try again");
                                     break;
                             }
                             break;
                     }
-
-
-//                    runOnUiThread(() -> {
-//                        // This part jumps back to the Main Thread safely
-//                        Toast.makeText(context, "Data Sent!", Toast.LENGTH_SHORT).show();
-//                    });
-
                 } catch (InterruptedException e) {
                     Log.d("ERROR when extracting from toDoList", e.getMessage());
                 }
 
             }
-
-
         } catch (IOException e) {
             System.err.println("Connection failed. Details: " + e.getMessage());
         }
 
+    }
+
+    public void setCurrentUI(AppCompatActivity activity) {
+        this.UI = activity;
+    }
+
+    public void makeToast(String output) {
+        if (UI != null) {
+            UI.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(UI, output, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

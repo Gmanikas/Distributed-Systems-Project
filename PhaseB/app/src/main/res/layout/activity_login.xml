@@ -44,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="65dp"
-        android:onClick="handleLogin"
         android:hint="Enter Your ID"
         android:textColorHint="#999999"
         android:textSize="20sp" 
