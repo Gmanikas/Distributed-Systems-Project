@@ -214,7 +214,7 @@ public class WorkerThread extends Thread {
 
                     break;
 
-                case "PLAY": 
+                case "PLAY":
                     Play play = gson.fromJson(payload, Play.class);
                     Game exists;
                     synchronized (games) {

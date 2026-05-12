@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Worker 6005" type="Application" factoryName="Application" singleton="false">
+    <option name="MAIN_CLASS_NAME" value="Worker.Worker" />
+    <module name="DS_Project" />
+    <option name="PROGRAM_PARAMETERS" value="6005" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhaseA" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="Worker.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

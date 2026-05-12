@@ -57,7 +57,7 @@ public class AndroidServer {
             System.out.println("Server started at: 8080 ...");
 
             while (true) {
-                Socket androidSocket = androidServer.accept(); 
+                Socket androidSocket = androidServer.accept();
                 new AndroidThread(androidSocket).start();
 
             }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c08fab72-dca2-4498-a7d7-9b26c6ad1cca" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Master/MasterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Master/MasterServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Reducer/StatsAggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Reducer/StatsAggregator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Worker/WorkerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Worker/WorkerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhaseB/BackendConnection/main/src/Android/AndroidServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseB/BackendConnection/main/src/Android/AndroidServer.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;PhiltheThrill29034&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Gmanikas/Distributed-Systems-Project.git&quot;,
+    &quot;accountId&quot;: &quot;c50a324d-0dde-460e-9542-6460d242260c&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8,
+  &quot;fromUser&quot;: true
+}</component>
+  <component name="ProjectId" id="3DUm8dGTIka6lpKwf8L1AD0R4BR" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Manager.executor": "Run",
+    "Application.Master.executor": "Run",
+    "Application.Player.executor": "Run",
+    "Application.Reducer.executor": "Run",
+    "Application.ReducerServer.executor": "Run",
+    "Application.Worker 6001.executor": "Run",
+    "Application.Worker 6002.executor": "Run",
+    "Application.Worker 6003.executor": "Run",
+    "Application.Worker 6004.executor": "Run",
+    "Application.Worker 6005.executor": "Run",
+    "Application.Worker.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/filip/Desktop/work/Uni/semester6/distributed_sys/DS_Project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.sourceCode.JAVA",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Application.Manager">
+    <configuration name="ALL WORKERS" type="CompoundRunConfigurationType">
+      <toRun name="Worker 6001" type="Application" />
+      <toRun name="Worker 6002" type="Application" />
+      <toRun name="Worker 6003" type="Application" />
+      <toRun name="Worker 6004" type="Application" />
+      <toRun name="Worker 6005" type="Application" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Master" />
+      <item itemvalue="Application.Manager" />
+      <item itemvalue="Application.Reducer" />
+      <item itemvalue="Application.Worker 6001" />
+      <item itemvalue="Application.Worker 6005" />
+      <item itemvalue="Application.Worker 6002" />
+      <item itemvalue="Application.Worker 6003" />
+      <item itemvalue="Application.Worker 6004" />
+      <item itemvalue="Compound.ALL WORKERS" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c08fab72-dca2-4498-a7d7-9b26c6ad1cca" name="Changes" comment="" />
+      <created>1778344864664</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778344864664</updated>
+      <workItem from="1778344865847" duration="3861000" />
+      <workItem from="1778362164710" duration="1024000" />
+      <workItem from="1778427151204" duration="94000" />
+      <workItem from="1778523223801" duration="6473000" />
+      <workItem from="1778573377388" duration="5312000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

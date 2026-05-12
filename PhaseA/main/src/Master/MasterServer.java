@@ -203,11 +203,46 @@ public class MasterServer {
             if (payload.isEmpty()) return "ERROR|No payload received";
 
             // ΔΙΟΡΘΩΣΗ: Χρήση της μεθόδου hashing για να βρεθεί ο σωστός Worker στη RAM
-            int idx = calculateWorkerFromPayload(payload);
-            WorkerConnection wCon = workers.get(idx);
+            //o replica του Worker1 είναι ο Worker2, δηλαδή ο αμέσως επόμενος.
+            //Tου τελευταίου Worker, το replica είναι ο πρώτος, κάνει wrap around σαν κύκλος
+            int primaryIdx = calculateWorkerFromPayload(payload);
+            int replicaIdx = (primaryIdx + 1) % workers.size();
+            System.out.println("Primary worker: Worker "+primaryIdx);
+            System.out.println("Replica of worker "+ primaryIdx+" : Worker "+replicaIdx);
+            WorkerConnection wCon = workers.get(primaryIdx);
+            WorkerConnection replica = workers.get(replicaIdx);
 
             // Προώθηση στον Worker (Ο Worker θα απαντήσει αν το βρήκε στη RAM του)
-            return forwardToWorker(wCon, workerRequest);
+            String primaryResult;
+            try {
+                primaryResult = forwardToWorker(wCon, workerRequest);
+            } catch (IOException e){
+                primaryResult = e.getMessage();
+            }
+            String replicaResult="";
+            try {
+                replicaResult = forwardToWorker(replica,workerRequest);
+            } catch (IOException e){
+                replicaResult = e.getMessage();
+            }
+
+            if (isFailure(primaryResult) && isFailure(replicaResult)) {
+                System.err.println("[CRITICAL] Both Primary (" + primaryIdx + ") and Replica (" + replicaIdx + ") are down.");
+                throw new IOException ( "ERROR Service Unavailable. Both primary and replica workers are offline.");
+            }
+
+            if (!isFailure(primaryResult)) {
+                if (isFailure(replicaResult)) {
+                    System.out.println("[WARN] Primary worked, but Replica was down. Data not mirrored.");
+                }
+                return primaryResult;
+            }
+
+
+            System.out.println("[FAILOVER] Primary down. Returning result from Replica.");
+            return replicaResult;
+
+
         }
 
         // Κάνουμε τον έλεγχο μέσω του playerBalance
@@ -238,6 +273,7 @@ public class MasterServer {
             }
 
             int idx = calculateWorkerFromPayload(payload);
+            int replicaIdx = (idx + 1) % workers.size();
             String workerResponse = forwardToWorker(workers.get(idx), workerRequest);
 
             // ΔΙΟΡΘΩΣΗ: Αν ο Worker αποτύχει, επιστρέφουμε τα χρήματα (Refund)
@@ -315,10 +351,10 @@ public class MasterServer {
             return response;
         } catch (SocketTimeoutException e) {
             System.err.println("Worker " + info.getPort() + " timed out! Moving to next...");
-            return "TIMEOUT";
+            throw new IOException("TIMEOUT");
         } catch (IOException e) {
             System.err.println("[FATAL] Worker at " + info.getPort() + " is unreachable");
-            return "OFFLINE";
+            throw new IOException("OFFLINE");
         }
 
     }
@@ -447,6 +483,10 @@ public class MasterServer {
             }
         }
         return activeWorkers;
+    }
+
+    private boolean isFailure(String response) {//helper method
+        return response == null || response.equals("OFFLINE") || response.equals("TIMEOUT") || response.startsWith("ERROR");
     }
 
 }

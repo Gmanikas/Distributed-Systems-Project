@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Manager" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="Manager.ManagerClient" />
+    <module name="DS_Project" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhaseA" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

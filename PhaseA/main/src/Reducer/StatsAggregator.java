@@ -19,7 +19,7 @@ public class StatsAggregator {
     private final Map<String, List<Double>> intermediateStats = new HashMap<>();
 
     // Δομή για Αναζήτηση (Συγκεντρωτική λίστα παιχνιδιών από όλους τους Workers)
-    private final List<Game> mergedGames = new ArrayList<>();
+    private final Map<String,Game> uniqueGames = new HashMap<>();
 
     public StatsAggregator(int expectedWorkers) {
         this.expectedWorkers = expectedWorkers;
@@ -36,7 +36,9 @@ public class StatsAggregator {
                 java.lang.reflect.Type listType = new TypeToken<List<Game>>() {}.getType();
                 List<Game> gamesFromWorker = gson.fromJson(jsonData, listType);
                 if (gamesFromWorker != null) {
-                    mergedGames.addAll(gamesFromWorker);
+                   for (Game g: gamesFromWorker){
+                       uniqueGames.put(g.getName(),g);
+                   }
                 }
             } else {
                 // Περίπτωση STATS: Λαμβάνουμε Map<String, Double>
@@ -81,7 +83,7 @@ public class StatsAggregator {
         // σημαίνει ότι η εργασία ήταν SEARCH.
         // Πρέπει να επιστρέψουμε ΠΑΝΤΑ Array, ακόμα και αν είναι άδειο ([]).
         if (intermediateStats.isEmpty()) {
-            return gson.toJson(mergedGames); // Αυτό θα επιστρέψει π.χ. [{}, {}] ή []
+            return gson.toJson(new ArrayList<>(uniqueGames.values())); // Αυτό θα επιστρέψει π.χ. [{}, {}] ή []
         }
 
         // 3. Αν είναι STATS, τότε μόνο επιστρέφουμε Object {}
