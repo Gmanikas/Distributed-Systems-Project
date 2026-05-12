@@ -42,18 +42,22 @@ public class MainMenuActivity extends AppCompatActivity {
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
     }
 
-    private void proceed(Class<? extends AppCompatActivity> activityClass) { // Me to Class<...> mporoume na dexomaste opoiadhpote activity
+    private void proceed(Class<? extends AppCompatActivity> activityClass, String message) { // Me to Class<...> mporoume na dexomaste opoiadhpote activity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Intent i = new Intent(MainMenuActivity.this, activityClass);
+                if (message != null) {
+                    i.putExtra("LogOut", message);
+                }
+
                 startActivity(i);
             }
         });
     }
 
     public void handleSearchGames(View v) {
-        this.proceed(SearchActivity.class);
+        this.proceed(SearchActivity.class, null);
     }
 
     public void handlePlayGame(View v) {
@@ -69,8 +73,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void handleLogOut(View v) {
-        ActivityHandler.getInstance().setPendingMessage("Logged out");
-        this.proceed(MainActivity.class);
+        this.proceed(MainActivity.class, "Logged out");
     }
 
 //    private void makeToast(String output) {

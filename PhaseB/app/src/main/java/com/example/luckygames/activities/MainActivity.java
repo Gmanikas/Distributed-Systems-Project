@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() { // Se periptwsh episkepshs tou Activity 2h fora. Kathws exei hdh dhmourghthei, den tha trexei to onCreate()
         super.onResume();
-        ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
 
         // Bgazoume mhnuma, giati exei ginei Log Out
-        String message = ActivityHandler.getInstance().getPendingMessage();
+        Intent i = getIntent();
+        String message = i.getStringExtra("LogOut");
         if (message != null) {
             // Den xreiazetai runOnUiThread()
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
