@@ -43,7 +43,7 @@ public class ActivityHandler {
         return this.playerId;
     }
 
-    public void setOverallBalance(double balance) {
+    public void addOverallBalance(double balance) {
         this.overallBalance += balance;
     }
 
@@ -51,9 +51,8 @@ public class ActivityHandler {
         return this.overallBalance;
     }
 
-    public void resetOverallBalance() {
-        // Prepei na brw tropo na pernw to balance apo to database
-        overallBalance = 1000.0;
+    public void setOverallBalance(double balance) {
+        overallBalance = balance;
     }
 
 

@@ -38,7 +38,12 @@ public class AndroidClient {
             response = "ERROR|No playerId entered";
         } else {
             androidThread.setCurrentPlayerId(playerId);
-            response = "OK|PlayerId submitted";
+            double balance = getBalance();
+            if (balance == 0.0) {
+                response = "ERROR|Balance was not retrieved";
+            } else {
+                response = "OK|PlayerId submitted, " + Double.toString(balance);
+            }
         }
 
         return response;
@@ -280,7 +285,7 @@ public class AndroidClient {
         }
     }
 
-    public double getBalance(String payload) {
+    public double getBalance() {
         String request = "GET_BALANCE|" + androidThread.getCurrentPlayerId() + "|0";
         String reply;
 

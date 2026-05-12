@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
+    android:id="@+id/cardWin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="15dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="YOU WON! 💰"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#2E7D32"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/tvWinAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100.0 FUN Added to Your Balance"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvNewBalanceWin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Balance: 1100.0 FUN"
+            android:textSize="16sp"
+            android:textColor="#757575"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
+
+    <Button
+    android:id="@+id/btnWinOk"
+    android:layout_width="200dp"
+    android:layout_height="70dp"
+    android:layout_marginTop="30dp"
+    android:text="OK"
+    android:textSize="22sp"
+    android:textAllCaps="true"
+    android:backgroundTint="#2E7D32"
+    android:textColor="#FFFFFF"
+    android:textStyle="bold"
+    android:layout_gravity="center"
+    android:padding="0dp"
+    android:insetTop="0dp"
+    android:insetBottom="0dp"
+    android:gravity="center" />
+</LinearLayout>
+</androidx.cardview.widget.CardView>

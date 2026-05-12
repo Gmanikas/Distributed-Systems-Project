@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
                 ActivityHandler.getInstance().setPlayerId(playerId);
-                ActivityHandler.getInstance().setOverallBalance(1000.0);
-                // i.putExtra("PlayerId", playerId);
                 startActivity(i);
             }
         });

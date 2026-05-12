@@ -74,16 +74,6 @@ public class CommunicationThread extends Thread {
                     switch (result) {
                         case "OK":
                             switch (typeOfResult) {
-                                case "PlayerId submitted": // LOGIN
-                                    makeToast("Logged in successfully");
-                                    // Allagh othonhs
-                                    if (UI instanceof MainActivity) {
-                                        ((MainActivity) UI).proceed();
-                                    } else if (UI instanceof ChangePlayerActivity){
-                                        ((ChangePlayerActivity) UI).proceed();
-                                    }
-
-                                    break;
                                 case "No games found matching the criteria": // SEARCH
                                     // Pame sto activity_results
                                     break;
@@ -101,11 +91,27 @@ public class CommunicationThread extends Thread {
                                     break;
 
                                 default:
-                                    if (typeOfResult.contains("-")) { // SEARCH //O monos tropos na elenxoume an yparxei -
+                                    if (typeOfResult.contains("PlayerId submitted")) { // LOGIN
+                                        makeToast("Logged in successfully");
+
+                                        String[] info = typeOfResult.split(",");
+                                        double balance = Double.parseDouble(info[1].trim());
+                                        ActivityHandler.getInstance().setOverallBalance(balance);
+
+                                        // Allagh othonhs
+                                        if (UI instanceof MainActivity) {
+                                            ((MainActivity) UI).proceed();
+                                        } else if (UI instanceof ChangePlayerActivity){
+                                            ((ChangePlayerActivity) UI).proceed();
+                                        }
+
+                                    } else if (typeOfResult.contains("-")) { // SEARCH //O monos tropos na elenxoume an yparxei -
                                         // Pame sto activity_results
+
                                     } else if (typeOfResult.startsWith("WON")) { // PLAY // Analogws
                                         String winAmount = typeOfResult.replace("WON,", "");
                                         // Deixnoume to apotelesma se neo activity
+
                                     } else if (typeOfResult.contains("star rating")) { // RATE // Analogws
                                         makeToast(typeOfResult);
                                     }
@@ -116,6 +122,9 @@ public class CommunicationThread extends Thread {
                             switch (typeOfResult) {
                                 case "No playerId entered": // LOGIN
                                     makeToast("Failed to login");
+                                    break;
+                                case "Balance was not retrieved": // LOGIN
+                                    makeToast("Balance was not retrieved");
                                     break;
 
                                 case "No search filters entered": // SEARCH

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
     android:id="@+id/change_player"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,7 +44,10 @@
             android:text="Change Your ID"
             android:textSize="14sp"
             android:textColor="#757575"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:drawableStart="@drawable/ic_account_box"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical" />
 
         <EditText
             android:id="@+id/etChangePlayerId"
@@ -69,6 +73,26 @@
         android:textColor="#000000"
         android:backgroundTint="#5C6BC0"
         android:gravity="center"
-        android:elevation="4dp" />
+        android:elevation="4dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp" />
+
+    <!-- SPACE FILLER (Ελατήριο για να σπρώξει το Home κάτω) -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- HOME BUTTON -->
+    <ImageButton
+        android:id="@+id/btnHome"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_home"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="Home Button" />
 
 </LinearLayout>

@@ -1,6 +1,10 @@
 package com.example.luckygames.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +22,8 @@ public class SearchActivity extends AppCompatActivity {
     private CommunicationThread communicationThread;
 
     private MyLinkedList<String> toDoList;
+    private String playerId;
+    private double overallBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +39,38 @@ public class SearchActivity extends AppCompatActivity {
         // Sundesh me to Communication Thread
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
         toDoList = ActivityHandler.getInstance().getToDoList();
+
+        playerId = ActivityHandler.getInstance().getPlayerId();
+        ((TextView) findViewById(R.id.tvPlayerId)).setText("PlayerId: " + playerId);
+
+        overallBalance = ActivityHandler.getInstance().getOverallBalance();
+        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance);
     }
 
     protected void onResume() {
         super.onResume();
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
+    }
+
+    public void proceed() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent i = new Intent(SearchActivity.this, MainMenuActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    public void handleSearchHomeButton(View v) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(SearchActivity.this, "Returning to Menu", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //communicationThread.makeToast("Returning to Menu");
+        proceed();
     }
 
 }

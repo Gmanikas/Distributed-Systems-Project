@@ -66,8 +66,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 if (message != null) {
                     i.putExtra("LogOut", message);
                 }
-                i.putExtra("PlayerId", playerId);
-                i.putExtra("Balance", overallBalance);
                 startActivity(i);
             }
         });

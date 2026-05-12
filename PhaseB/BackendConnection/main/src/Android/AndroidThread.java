@@ -119,7 +119,7 @@ public class AndroidThread extends Thread {
     public void syncBalanceWithMasterServer(AndroidClient androidClient) {
 
         synchronized(balanceLock) {
-            double balanceFromServer = androidClient.getBalance(currentPlayerId);
+            double balanceFromServer = androidClient.getBalance();
             currentPlayerBalance = balanceFromServer;
             System.out.println("Balance synced for " + currentPlayerId);
         }

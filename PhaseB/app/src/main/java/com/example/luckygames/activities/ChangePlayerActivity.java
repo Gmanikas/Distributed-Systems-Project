@@ -61,7 +61,6 @@ public class ChangePlayerActivity extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(ChangePlayerActivity.this, MainMenuActivity.class);
                 ActivityHandler.getInstance().setPlayerId(playerId);
-                ActivityHandler.getInstance().resetOverallBalance();
                 startActivity(i);
             }
         });

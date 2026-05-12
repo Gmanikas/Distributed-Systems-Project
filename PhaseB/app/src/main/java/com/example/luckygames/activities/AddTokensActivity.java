@@ -2,12 +2,14 @@ package com.example.luckygames.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import android.view.View;
 
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,7 +67,7 @@ public class AddTokensActivity extends AppCompatActivity {
             public void run() {
                 Intent i = new Intent(AddTokensActivity.this, MainMenuActivity.class);
                 double temp = Double.parseDouble(balance);
-                ActivityHandler.getInstance().setOverallBalance(temp);
+                ActivityHandler.getInstance().addOverallBalance(temp);
                 startActivity(i);
             }
         });
@@ -81,6 +83,17 @@ public class AddTokensActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());
         }
+    }
+
+    public void handleAddTokensHomeButton(View v) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(AddTokensActivity.this, "Returning to Menu", Toast.LENGTH_SHORT).show();
+            }
+        });
+        //communicationThread.makeToast("Returning to Menu");
+        proceed();
     }
 
 }

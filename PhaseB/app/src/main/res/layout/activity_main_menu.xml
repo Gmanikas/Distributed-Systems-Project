@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
     android:id="@+id/main_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,7 +8,7 @@
     android:background="#FFFFFF"
     android:padding="20dp">
 
-    <!-- HEADER: PLAYER INFO & BALANCE ΜΕ ΕΙΚΟΝΙΔΙΑ (ΕΥΘΥΓΡΑΜΜΙΣΜΕΝΑ) -->
+    <!-- HEADER: PLAYER INFO & BALANCE -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,71 +73,101 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:paddingHorizontal="10dp">
 
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
             android:onClick="handleSearchGames"
             android:text="1. SEARCH GAMES"
             android:backgroundTint="#5C6BC0"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:gravity="center" />
 
         <Button
             android:id="@+id/btnPlay"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
             android:onClick="handlePlayGame"
             android:text="2. PLAY GAME"
             android:backgroundTint="#5C6BC0"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:gravity="center" />
 
         <Button
             android:id="@+id/btnAddTokens"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
             android:onClick="handleAddTokens"
             android:text="3. ADD TOKENS"
             android:backgroundTint="#5C6BC0"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:gravity="center" />
 
         <Button
             android:id="@+id/btnRate"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_marginBottom="12dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="handleRateGame"
             android:text="4. RATE GAME"
             android:backgroundTint="#5C6BC0"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:gravity="center" />
 
         <Button
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_height="60dp"
             android:onClick="handleLogOut"
             android:text="5. LOGOUT"
             android:backgroundTint="#EF5350" 
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:gravity="center" />
     </LinearLayout>
+
+    <!-- ΕΛΑΤΗΡΙΟ ΓΙΑ ΤΟ HOME BUTTON -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- HOME BUTTON -->
+    <ImageButton
+        android:id="@+id/btnHome"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Home Button"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_home"
+        app:srcCompat="@drawable/ic_home" />
 
 </LinearLayout>
