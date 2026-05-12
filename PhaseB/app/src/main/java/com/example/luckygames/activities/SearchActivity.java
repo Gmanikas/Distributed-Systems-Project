@@ -1,4 +1,4 @@
-package com.example.luckygames;
+package com.example.luckygames.activities;
 
 import android.os.Bundle;
 
@@ -8,6 +8,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.luckygames.ActivityHandler;
+import com.example.luckygames.CommunicationThread;
+import com.example.luckygames.R;
 import com.example.luckygames.shared.models.MyLinkedList;
 
 public class SearchActivity extends AppCompatActivity {

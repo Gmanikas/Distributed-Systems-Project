@@ -9,6 +9,8 @@ public class ActivityHandler {
     private final CommunicationThread communicationThread;
     private final String IP = "10.0.2.2";
     private final int PORT = 8080;
+    private String playerId;
+    private double overallBalance = 0.0;
 
     private String message;
 
@@ -33,14 +35,26 @@ public class ActivityHandler {
         return communicationThread;
     }
 
-    public void setPendingMessage(String message) {
-        this.message = message;
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
     }
 
-    public String getPendingMessage() {
-        String temp = message;
-        message = null;
-        return temp;
+    public String getPlayerId() {
+        return this.playerId;
     }
+
+    public void setOverallBalance(double balance) {
+        this.overallBalance += balance;
+    }
+
+    public double getOverallBalance() {
+        return this.overallBalance;
+    }
+
+    public void resetOverallBalance() {
+        // Prepei na brw tropo na pernw to balance apo to database
+        overallBalance = 1000.0;
+    }
+
 
 }

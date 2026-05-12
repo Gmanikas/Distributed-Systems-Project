@@ -49,7 +49,7 @@ public class AndroidServer {
         // items.add("Item 3");
         // items.add("Item 4");
 
-        String image = getImageAsBase64();
+        //String image = getImageAsBase64();
 
         try (ServerSocket androidServer = new ServerSocket(8080);) {
 

@@ -1,17 +1,22 @@
-package com.example.luckygames;
+package com.example.luckygames.activities;
 
 import android.os.Bundle;
 
 import android.content.Intent;
-import android.widget.Toast;
 import android.view.View;
 
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultCaller;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.luckygames.ActivityHandler;
+import com.example.luckygames.CommunicationThread;
+import com.example.luckygames.R;
 import com.example.luckygames.shared.models.MyLinkedList;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -19,6 +24,9 @@ public class MainMenuActivity extends AppCompatActivity {
     private CommunicationThread communicationThread;
 
     private MyLinkedList<String> toDoList;
+
+    private String playerId;
+    private double overallBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,14 @@ public class MainMenuActivity extends AppCompatActivity {
         // Sundesh me to Communication Thread
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
         toDoList = ActivityHandler.getInstance().getToDoList();
+
+        //Intent i = getIntent();
+        playerId = ActivityHandler.getInstance().getPlayerId();
+        ((TextView) findViewById(R.id.tvPlayerId)).setText("PlayerId: " + playerId);
+
+        overallBalance = ActivityHandler.getInstance().getOverallBalance();
+        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance);
+
     }
 
     @Override
@@ -50,7 +66,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 if (message != null) {
                     i.putExtra("LogOut", message);
                 }
-
+                i.putExtra("PlayerId", playerId);
+                i.putExtra("Balance", overallBalance);
                 startActivity(i);
             }
         });
@@ -65,7 +82,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void handleAddTokens(View v) {
-
+        this.proceed(AddTokensActivity.class, null);
     }
 
     public void handleRateGame(View v) {
@@ -73,16 +90,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void handleLogOut(View v) {
-        this.proceed(MainActivity.class, "Logged out");
+        this.proceed(ChangePlayerActivity.class, "Logged out");
     }
-
-//    private void makeToast(String output) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Toast.makeText(getApplicationContext(), output, Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
 }

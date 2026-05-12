@@ -1,4 +1,4 @@
-package com.example.luckygames;
+package com.example.luckygames.activities;
 
 import android.annotation.SuppressLint;
 
@@ -22,6 +22,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.luckygames.ActivityHandler;
+import com.example.luckygames.CommunicationThread;
+import com.example.luckygames.R;
 import com.example.luckygames.shared.models.MyLinkedList;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private CommunicationThread communicationThread;
 
     private MyLinkedList<String> toDoList;
+
+    private String playerId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
+                ActivityHandler.getInstance().setPlayerId(playerId);
+                ActivityHandler.getInstance().setOverallBalance(1000.0);
+                // i.putExtra("PlayerId", playerId);
                 startActivity(i);
             }
         });
@@ -71,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void handleLogin(View v) {
         EditText playerIdView = findViewById(R.id.etPlayerId);
-        String playerId = playerIdView.getText().toString();
+        playerId = playerIdView.getText().toString();
 
         try{
             toDoList.put("LOGIN|" + playerId);

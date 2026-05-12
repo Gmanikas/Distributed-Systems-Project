@@ -13,6 +13,9 @@ import java.io.BufferedReader;
 
 import java.io.IOException;
 
+import com.example.luckygames.activities.AddTokensActivity;
+import com.example.luckygames.activities.ChangePlayerActivity;
+import com.example.luckygames.activities.MainActivity;
 import com.example.luckygames.shared.models.MyLinkedList;
 public class CommunicationThread extends Thread {
 
@@ -76,6 +79,8 @@ public class CommunicationThread extends Thread {
                                     // Allagh othonhs
                                     if (UI instanceof MainActivity) {
                                         ((MainActivity) UI).proceed();
+                                    } else if (UI instanceof ChangePlayerActivity){
+                                        ((ChangePlayerActivity) UI).proceed();
                                     }
 
                                     break;
@@ -90,6 +95,9 @@ public class CommunicationThread extends Thread {
                                 case "Balance updated": // ADD_BALANCE
                                     makeToast("Balance updated");
                                     // Epistrefoume sto activity_main
+                                    if (UI instanceof AddTokensActivity) {
+                                        ((AddTokensActivity) UI).proceed();
+                                    }
                                     break;
 
                                 default:

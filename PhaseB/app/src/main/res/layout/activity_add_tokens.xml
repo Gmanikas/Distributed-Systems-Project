@@ -106,6 +106,7 @@
         android:id="@+id/btnSubmitTokens"
         android:layout_width="match_parent"
         android:layout_height="70dp"
+        android:onClick="handleAddBalance"
         android:text="SUBMIT"
         android:gravity="center"
         android:backgroundTint="#5C6BC0"

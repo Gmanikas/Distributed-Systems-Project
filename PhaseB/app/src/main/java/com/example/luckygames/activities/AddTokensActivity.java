@@ -2,10 +2,12 @@ package com.example.luckygames.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
+
+import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,20 +20,23 @@ import com.example.luckygames.CommunicationThread;
 import com.example.luckygames.R;
 import com.example.luckygames.shared.models.MyLinkedList;
 
-public class ChangePlayerActivity extends AppCompatActivity {
+public class AddTokensActivity extends AppCompatActivity {
 
     private CommunicationThread communicationThread;
 
     private MyLinkedList<String> toDoList;
 
-    String playerId;
+    private String playerId;
+
+    private double overallBalance;
+    private String balance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_change_player);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.change_player), (v, insets) -> {
+        setContentView(R.layout.activity_add_tokens);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.add_tokens), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -40,43 +45,42 @@ public class ChangePlayerActivity extends AppCompatActivity {
         // Sundesh me to Communication Thread
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
         toDoList = ActivityHandler.getInstance().getToDoList();
+
+        playerId = ActivityHandler.getInstance().getPlayerId();
+        ((TextView) findViewById(R.id.tvPlayerId)).setText("PlayerId: " + playerId);
+
+        overallBalance = ActivityHandler.getInstance().getOverallBalance();
+        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance);
     }
 
+    @Override
     protected void onResume() {
         super.onResume();
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
-
-        // Bgazoume mhnuma, giati exei ginei Log Out
-        Intent i = getIntent();
-        String message = i.getStringExtra("LogOut");
-        if (message != null) {
-            // Den xreiazetai runOnUiThread()
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
     }
 
     public void proceed() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(ChangePlayerActivity.this, MainMenuActivity.class);
-                ActivityHandler.getInstance().setPlayerId(playerId);
-                ActivityHandler.getInstance().resetOverallBalance();
+                Intent i = new Intent(AddTokensActivity.this, MainMenuActivity.class);
+                double temp = Double.parseDouble(balance);
+                ActivityHandler.getInstance().setOverallBalance(temp);
                 startActivity(i);
             }
         });
     }
 
-    public void handleReLogin(View v) {
-        EditText playerIdView = findViewById(R.id.etChangePlayerId);
-        playerId = playerIdView.getText().toString();
+    public void handleAddBalance(View v) {
+        EditText balanceView = findViewById(R.id.etAddAmount);
+        balance =  balanceView.getText().toString();
 
-        try{
-            toDoList.put("LOGIN|" + playerId);
+        // Stelnoume thn entolh
+        try {
+            toDoList.put("ADD_BALANCE|" + balance);
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());
         }
-        Log.d("PlayerId", playerId);
     }
 
 }
