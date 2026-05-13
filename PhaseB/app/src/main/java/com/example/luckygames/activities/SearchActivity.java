@@ -1,10 +1,16 @@
 package com.example.luckygames.activities;
 
+import com.example.luckygames.shared.models.Game;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Spinner;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +23,9 @@ import com.example.luckygames.CommunicationThread;
 import com.example.luckygames.R;
 import com.example.luckygames.shared.models.MyLinkedList;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class SearchActivity extends AppCompatActivity {
 
     private CommunicationThread communicationThread;
@@ -24,6 +33,7 @@ public class SearchActivity extends AppCompatActivity {
     private MyLinkedList<String> toDoList;
     private String playerId;
     private double overallBalance;
+    String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +62,56 @@ public class SearchActivity extends AppCompatActivity {
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
     }
 
-    public void proceed() {
+    public void proceed(Class<? extends AppCompatActivity> activityClass, String game) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SearchActivity.this, MainMenuActivity.class);
+                Intent i = new Intent(SearchActivity.this, activityClass);
+                // Apofasizoume an tha perasoume data h oxi
+                if (game != null) {
+                    i.putExtra("Game", game);
+                }
                 startActivity(i);
+            }
+        });
+    }
+
+    public void handleSearch(View v) {
+        Spinner minimumStarsSpinner = findViewById(R.id.spMinStars);
+        Spinner categorySpinner = findViewById(R.id.spBetCat);
+        Spinner riskLevelSpinner = findViewById(R.id.spRisk);
+
+        String minimumStars = minimumStarsSpinner.getSelectedItem().toString();
+        String category = categorySpinner.getSelectedItem().toString();
+        String riskLevel = riskLevelSpinner.getSelectedItem().toString();
+
+        List<String> messageBuilder = new ArrayList<>();
+
+        if (minimumStars.equals("-")) {messageBuilder.add("number of stars");}
+        if (category.equals("-")) {messageBuilder.add("a category");}
+        if (riskLevel.equals("-")) {messageBuilder.add("a risk level");}
+
+        if (messageBuilder.isEmpty()) {
+            message = "Search submitted";
+            try {
+                toDoList.put("SEARCH|" + minimumStars + "," + category + "," + riskLevel);
+            } catch (InterruptedException e) {
+                Log.d("ERROR when adding to toDoList", e.getMessage());
+            }
+        } else {
+            message = TextUtils.join(", ", messageBuilder);
+            // An den einai mono mia mh sumplhrwmenh prosthetoume "and"
+            if (messageBuilder.size() > 1) {
+                int lastComma = message.lastIndexOf(",");
+                message = message.substring(0, lastComma) + " and" + message.substring(lastComma + 1);
+            }
+            message = "Must select " + message;
+        }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(SearchActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -69,8 +123,7 @@ public class SearchActivity extends AppCompatActivity {
                 Toast.makeText(SearchActivity.this, "Returning to Menu", Toast.LENGTH_SHORT).show();
             }
         });
-        //communicationThread.makeToast("Returning to Menu");
-        proceed();
+        proceed(MainMenuActivity.class, null);
     }
 
 }

@@ -86,42 +86,5 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d("PlayerId", playerId);
     }
-
-    @SuppressLint("SetTextI18n")
-    public void fetch(View v) {
-        v.setEnabled(false);
-        Log.d("Success", "Button Disabled!"); // Emfanizei sto Logcat kapoio output
-
-        Button vButton = (Button) v; // Metatrepoume to View se Button. Etsi xekleidwnontai kialles leitourgies
-                                     // To Button einai paidi tou View
-        vButton.setText("Clicked");
-
-        try {
-            toDoList.put("SEARCH");
-        } catch (InterruptedException e) {
-            Log.d("ERROR when adding to toDoList", e.getMessage());
-        }
-    }
-
-    public void handlePlayerIdText(View v) {
-//        EditText playerIdView = findViewById(R.id.playerIdText);
-//        String playerId = playerIdView.getText().toString();
-        try {
-            //toDoList.put("LOGIN|"  + playerId);
-//            toDoList.put("LOGIN|123");
-//            toDoList.put("ADD_BALANCE|100");
-//            toDoList.put("SEARCH|4");
-//            toDoList.put("SEARCH");
-//            toDoList.put("SEARCH|");
-//            toDoList.put("PLAY|CyberPoker,30");
-//            toDoList.put("SEARCH|4,$$$,high");
-            toDoList.put("RATE|CyberPoker,4");
-        } catch (InterruptedException e) {
-            Log.d("ERROR when adding to toDoList", e.getMessage());
-        }
-        //usernameView.setEnabled(false);
-        //Log.d("Username", playerId);
-        Log.d("PlayerId", "playerId");
-    }
-
+    
 }

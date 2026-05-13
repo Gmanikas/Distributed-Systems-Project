@@ -74,11 +74,11 @@ public class AndroidClient {
 
                     String searchResults = sendSearch(searchFilters);
 
-                    if (searchResults == null || searchResults.isEmpty()) {
+                    if (searchResults.equals("[]")) {
                         System.out.println("\n--- No games found matching the criteria ---\n");
                         response = "OK|No games found matching the criteria";
                     } else {
-                        System.out.println("\n--- [Search Results] ---\n" + searchResults);
+                        System.out.println("\n--- [Search Results] ---\n" + searchResults + "\n");
                         response = "OK|" + searchResults;
                     }
                 } catch (NumberFormatException e) {
@@ -110,12 +110,6 @@ public class AndroidClient {
                 System.err.println("ERROR while executing the Search. Received " + reply + " response from Master.");
                 return "ERROR|Failed to complete the Search request";
             }
-
-            // Μετατροπή της JSON λίστας σε αντικείμενα Game
-            //java.lang.reflect.Type listType = new TypeToken<ArrayList<Game>>(){}.getType();
-            //return gson.fromJson(response, listType);
-            String[] info = reply.split("\\|");
-            reply = info[0] + " - " + info[1] + " - " + info[2] + " - " + info[3];
 
             return reply;
 

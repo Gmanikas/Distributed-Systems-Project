@@ -2,4 +2,28 @@
     <string name="app_name">LuckyGames</string>
     <string name="fetch">Fetch</string>
     <string name="username">Username</string>
+
+    <string-array name="minimum_stars">
+        <item>-</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>-</item>
+        <item>$</item>
+        <item>$$</item>
+        <item>$$$</item>
+    </string-array>
+
+    <string-array name="risk_level">
+        <item>-</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+
 </resources>

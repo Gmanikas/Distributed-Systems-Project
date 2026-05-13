@@ -1,5 +1,9 @@
 package com.example.luckygames;
 
+import com.example.luckygames.activities.ResultsActivity;
+import com.example.luckygames.activities.SearchActivity;
+
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,12 +21,15 @@ import com.example.luckygames.activities.AddTokensActivity;
 import com.example.luckygames.activities.ChangePlayerActivity;
 import com.example.luckygames.activities.MainActivity;
 import com.example.luckygames.shared.models.MyLinkedList;
+
+
 public class CommunicationThread extends Thread {
 
     private AppCompatActivity UI;
     private final String IP;
     private final int PORT;
     private final MyLinkedList<String> toDoList; // Lista opou tha sugkentrwnoume ta request tou app
+
 
     String response;
 
@@ -76,6 +83,7 @@ public class CommunicationThread extends Thread {
                             switch (typeOfResult) {
                                 case "No games found matching the criteria": // SEARCH
                                     // Pame sto activity_results
+                                    makeToast("No games matching the criteria exists");
                                     break;
 
                                 case "LOST": // PLAY
@@ -105,8 +113,11 @@ public class CommunicationThread extends Thread {
                                             ((ChangePlayerActivity) UI).proceed();
                                         }
 
-                                    } else if (typeOfResult.contains("-")) { // SEARCH //O monos tropos na elenxoume an yparxei -
+                                    } else if (typeOfResult.startsWith("[")) { // SEARCH //O monos tropos na elenxoume an yparxei -
                                         // Pame sto activity_results
+                                        if (UI instanceof SearchActivity) {
+                                            ((SearchActivity) UI).proceed(ResultsActivity.class, typeOfResult);
+                                        }
 
                                     } else if (typeOfResult.startsWith("WON")) { // PLAY // Analogws
                                         String winAmount = typeOfResult.replace("WON,", "");
