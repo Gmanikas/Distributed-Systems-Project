@@ -62,14 +62,14 @@ public class SearchActivity extends AppCompatActivity {
         ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
     }
 
-    public void proceed(Class<? extends AppCompatActivity> activityClass, String game) {
+    public void proceed(Class<? extends AppCompatActivity> activityClass, String games) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Intent i = new Intent(SearchActivity.this, activityClass);
                 // Apofasizoume an tha perasoume data h oxi
-                if (game != null) {
-                    i.putExtra("Game", game);
+                if (games != null) {
+                    i.putExtra("Games", games);
                 }
                 startActivity(i);
             }
@@ -92,7 +92,7 @@ public class SearchActivity extends AppCompatActivity {
         if (riskLevel.equals("-")) {messageBuilder.add("a risk level");}
 
         if (messageBuilder.isEmpty()) {
-            message = "Search submitted";
+            message = "Searching...";
             try {
                 toDoList.put("SEARCH|" + minimumStars + "," + category + "," + riskLevel);
             } catch (InterruptedException e) {

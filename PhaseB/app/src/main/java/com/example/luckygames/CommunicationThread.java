@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import com.example.luckygames.activities.AddTokensActivity;
 import com.example.luckygames.activities.ChangePlayerActivity;
-import com.example.luckygames.activities.MainActivity;
+import com.example.luckygames.activities.LoginActivity;
 import com.example.luckygames.shared.models.MyLinkedList;
 
 
@@ -83,7 +83,7 @@ public class CommunicationThread extends Thread {
                             switch (typeOfResult) {
                                 case "No games found matching the criteria": // SEARCH
                                     // Pame sto activity_results
-                                    makeToast("No games matching the criteria exists");
+                                    makeToast("No games found matching the criteria");
                                     break;
 
                                 case "LOST": // PLAY
@@ -107,8 +107,8 @@ public class CommunicationThread extends Thread {
                                         ActivityHandler.getInstance().setOverallBalance(balance);
 
                                         // Allagh othonhs
-                                        if (UI instanceof MainActivity) {
-                                            ((MainActivity) UI).proceed();
+                                        if (UI instanceof LoginActivity) {
+                                            ((LoginActivity) UI).proceed();
                                         } else if (UI instanceof ChangePlayerActivity){
                                             ((ChangePlayerActivity) UI).proceed();
                                         }
@@ -167,18 +167,16 @@ public class CommunicationThread extends Thread {
                                 case "Insufficient balance": // PLAY
                                     makeToast("Insufficient Balance");
                                     break;
-                                case "Something went wrong": // PLAY
-                                    makeToast("Something went wrong. Try again");
-                                    break;
                                 case "Invalid bet amount format": // PLAY
                                     makeToast("Bet amount needs to be a number");
                                     break;
 
+                                case "Something went wrong": // PLAY & ADD_BALANCE
+                                    makeToast("Something went wrong. Try again");
+                                    break;
+
                                 case "Amount needs to be positive": // ADD_BALANCE
                                     makeToast("Amount needs to be positive");
-                                    break;
-                                case "Server limits reached or connection was lost": // ADD_BALANCE
-                                    makeToast("Connection error. Try again");
                                     break;
                                 case "Invalid amount format": // ADD_BALANCE
                                     makeToast("Invalid amount format");
@@ -201,6 +199,12 @@ public class CommunicationThread extends Thread {
                                     break;
                                 case "Something failed while trying to fetch average rating for game": // RATE
                                     makeToast("Connection error. Try again");
+                                    break;
+
+                                default:
+                                    if (typeOfResult.startsWith("Deposit denied. Max limit is")) { // ADD_BALANCE
+                                        makeToast("Deposit denied. Limit is 5000");
+                                    }
                                     break;
                             }
                             break;

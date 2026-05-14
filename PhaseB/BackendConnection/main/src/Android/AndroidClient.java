@@ -228,29 +228,28 @@ public class AndroidClient {
                 response = "ERROR|Amount needs to be positive";
             } else {
                 String currentPlayer = androidThread.getCurrentPlayerId();
-                boolean jobDone = sendAddBalance(currentPlayer, amountToAdd);
+                String temp = sendAddBalance(currentPlayer, amountToAdd);
 
-                if (jobDone) {
+                if (temp.startsWith("OK")) {
                     synchronized (androidThread.balanceLock) {
                         double currentBalance = androidThread.getCurrentPlayerBalance();
                         currentBalance += amountToAdd;
                         androidThread.setCurrentPlayerBalance(currentBalance);
                     }
                     System.out.println("Balance updated successfully.");
-                    response = "OK|Balance updated";
                 } else {
-                    System.err.println("Update failed. Check server limits (Max 5000) or connection.");
-                    response = "ERROR|Server limits reached or connection was lost";
+                    System.err.println("Update didn't go through. Check server limits (Max 5000) or connection.");
                 }
+                response = temp;
             }
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             System.err.println("Invalid amount format.");
             response = "ERROR|Invalid amount format";
         }
         return response;
     }
 
-    private boolean sendAddBalance(String playerId, double amount) {
+    private String sendAddBalance(String playerId, double amount) {
         String request = "ADD_BALANCE|" + playerId + "|" + amount;
         String reply;
 
@@ -264,18 +263,15 @@ public class AndroidClient {
 
             reply = inFromMaster.readLine();
             
-            if (reply != null && reply.startsWith("SUCCESS")) {
-                //System.out.println(reply.replace("SUCCESS|", ""));
-                return true;
-            } else {
-                //if (reply != null) {
-                    //System.err.println(reply.replace("ERROR|", ""));
-                //}
-                return false;
+            if (reply == null) {
+                return "ERROR|Something went wrong";
             }
+                
+            return reply;
+            
         } catch (IOException e) {
             System.err.println("ERROR while sending ADD_BALANCE request to Master. Details: " + e.getMessage());
-            return false;
+            return "ERROR|Something went wrong";
         }
     }
 
