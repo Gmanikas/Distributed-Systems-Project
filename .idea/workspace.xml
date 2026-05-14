@@ -6,18 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c08fab72-dca2-4498-a7d7-9b26c6ad1cca" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Manager/ManagerClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Manager/ManagerClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Master/MasterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Master/MasterServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Worker/WorkerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Worker/WorkerThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/main/target/production/DS_Project/Worker/WorkerThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/target/production/DS_Project/Worker/WorkerThread.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Manager.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Manager.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Master.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Master.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Reducer.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Reducer.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6001.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6001.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6002.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6002.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6003.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6003.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6004.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6004.run.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6005.run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/runConfigs/Worker 6005.run.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +73,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Manager">
+  <component name="RunManager" selected="Application.Reducer">
     <configuration name="PlayerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Player.PlayerMain" />
       <module name="DS_Project" />
@@ -139,7 +127,7 @@
       <workItem from="1778573377388" duration="6340000" />
       <workItem from="1778617015480" duration="1305000" />
       <workItem from="1778702691033" duration="3517000" />
-      <workItem from="1778744773966" duration="4547000" />
+      <workItem from="1778744773966" duration="5544000" />
     </task>
     <servers />
   </component>

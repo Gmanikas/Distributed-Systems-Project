@@ -217,25 +217,29 @@ public class MasterServer {
 
             // Προώθηση στον Worker (Ο Worker θα απαντήσει αν το βρήκε στη RAM του)
             String primaryResult;
+            boolean sentToPrimary = false;
+            boolean sentToReplica = false;
             try {
                 primaryResult = forwardToWorker(wCon, workerRequest);
+                sentToPrimary = true;
             } catch (IOException e){
                 primaryResult = e.getMessage();
             }
             String replicaResult="";
             try {
                 replicaResult = forwardToWorker(replica,workerRequest);
+                sentToReplica = true;
             } catch (IOException e){
                 replicaResult = e.getMessage();
             }
 
-            if (isFailure(primaryResult) && isFailure(replicaResult)) {
+            if (!sentToPrimary && !sentToReplica) {
                 System.err.println("[CRITICAL] Both Primary (" + primaryIdx + ") and Replica (" + replicaIdx + ") are down.");
                 throw new IOException ( "ERROR Service Unavailable. Both primary and replica workers are offline.");
             }
 
-            if (!isFailure(primaryResult)) {
-                if (isFailure(replicaResult)) {
+            if (sentToPrimary) {
+                if (!sentToReplica) {
                     System.out.println("[WARN] Primary worked, but Replica was down. Data not mirrored.");
                 }
                 return primaryResult;
@@ -536,8 +540,6 @@ public class MasterServer {
         return active;
     }
 
-    private boolean isFailure(String response) {//helper method
-        return response == null || response.equals("OFFLINE") || response.equals("TIMEOUT") || response.startsWith("ERROR");
-    }
+
 
 }
