@@ -111,7 +111,7 @@ public class WorkerThread extends Thread {
                                 games.put(gameName, newGame);
                                 startSRGConnection(newGame);
                                 out.println("OK");
-                                System.out.println("[WORKER] Game " + newGame + "  was added.");                                
+                                System.out.println("[WORKER] Game " + gameName + "  was added.");
                             }
                         }
                     } catch (Exception e) {

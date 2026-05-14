@@ -3,7 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="Worker.Worker" />
     <module name="DS_Project" />
     <option name="PROGRAM_PARAMETERS" value="6003" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhaseA" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhaseA/main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

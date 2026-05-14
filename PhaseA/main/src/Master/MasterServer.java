@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -71,7 +72,7 @@ public class MasterServer {
         int retries = 5;
         while (retries-- > 0) {
             try {
-                notifyReducerOfCount("localhost", REDUCER_PORT, defaultRequestId, getActiveWorkers());
+                notifyReducerOfCount("localhost", REDUCER_PORT, defaultRequestId, getActive());
                 System.out.println("\n=== Master System ===");
                 System.out.println("Successfully contacted Reducer at port " + REDUCER_PORT);
                 return;
@@ -207,8 +208,10 @@ public class MasterServer {
             //Tου τελευταίου Worker, το replica είναι ο πρώτος, κάνει wrap around σαν κύκλος
             int primaryIdx = calculateWorkerFromPayload(payload);
             int replicaIdx = (primaryIdx + 1) % workers.size();
-            System.out.println("Primary worker: Worker "+primaryIdx);
-            System.out.println("Replica of worker "+ primaryIdx+" : Worker "+replicaIdx);
+            //DEBUG
+            System.out.println("Primary worker: Worker "+primaryIdx+1);
+            System.out.println("Replica of worker "+ primaryIdx+" : Worker "+replicaIdx+1);
+            //
             WorkerConnection wCon = workers.get(primaryIdx);
             WorkerConnection replica = workers.get(replicaIdx);
 
@@ -305,10 +308,34 @@ public class MasterServer {
         else if (cmd.equals("SEARCH") || cmd.equals("GET_GAME_STATS") 
                  || cmd.equals("GET_PROVIDER_STATS") || cmd.equals("GET_PLAYER_STATS")) {
             // Ειδοποίηση Reducer για το πλήθος των Workers (Barrier Setup)
-            notifyReducerOfCount("localhost", REDUCER_PORT, requestId, getActiveWorkers());
+            int activeWorkers = getActive();
+            if (activeWorkers==0){
+                throw new IOException("ALL WORKERS OFFLINE");
+            }
+            notifyReducerOfCount("localhost", REDUCER_PORT, requestId, getActive());
 
-            for (WorkerConnection con : workers) {
-                forwardToWorker(con, workerRequest); // Map Step
+            for (int i=0;i<workers.size();i++) {
+                WorkerConnection primary = workers.get(i);
+                WorkerConnection replica = workers.get((i+1)%workers.size());
+                boolean segmentSuccess = false; //if either of the primary or the replica reply, this becomes true
+                try {
+                    forwardToWorker(primary,workerRequest);
+                    segmentSuccess = true;
+                    System.out.printf("Successfully reached primary worker [Worker %d].",i);
+
+                } catch (IOException e){
+                    System.out.printf("Failed to contact primary worker [Worker %d], trying replica [Worker %d]%n",i,(i+1)%workers.size());
+                    try {
+                        forwardToWorker(replica,workerRequest);
+                        segmentSuccess = true;
+                        System.out.printf("Successfully reached replica [Worker %d]",(i+1)%workers.size());
+                    } catch (IOException ioe){
+                        System.out.println("Both primary and replica worker are down.");
+                        System.out.println("Games saved in these workers will not show in results.");
+
+                    }
+                }
+
             }
 
             // Λήψη τελικού αποτελέσματος (Reduce Step)
@@ -455,34 +482,58 @@ public class MasterServer {
         }
     }
 
-    private int getActiveWorkers(){
-        int activeWorkers = 0;
+//    private int getActiveWorkers(){
+//        int activeWorkers = 0;
+//
+//        for (WorkerConnection con : workers) {
+//            boolean connected = false;
+//            int attempts = 0;
+//
+//            // Ο Master θα επιμείνει μέχρι να βρει τον Worker ή να εξαντλήσει 100 προσπάθειες
+//            while (!connected && attempts < 100) {
+//                try (Socket s = new Socket()) {
+//                    // Το timeout των 1500ms λειτουργεί ως "φρένο" χωρίς sleep.
+//                    // Αν ο Worker είναι κλειστός, η connect θα περιμένει 1.5 δευτερόλεπτο.
+//                    s.connect(new java.net.InetSocketAddress(con.getHost(), con.getPort()), 1500);
+//
+//                    // Αν φτάσει εδώ, η σύνδεση πέτυχε
+//                    activeWorkers++;
+//                    connected = true;
+//                    System.out.println("[MASTER] Found Worker at port: " + con.getPort());
+//                } catch (IOException e) {
+//                    attempts++;
+//                    // Τυπώνουμε ανά 5 προσπάθειες για να ξέρεις ότι ο Master "ζει"
+//                    if (attempts % 5 == 0) {
+//                        System.err.println("[MASTER] Still waiting for Worker " + con.getPort() + "... (Attempt " + attempts + ")");
+//                    }
+//                }
+//            }
+//        }
+//        return activeWorkers;
+//    }
 
-        for (WorkerConnection con : workers) {
-            boolean connected = false;
-            int attempts = 0;
-
-            // Ο Master θα επιμείνει μέχρι να βρει τον Worker ή να εξαντλήσει 100 προσπάθειες
-            while (!connected && attempts < 100) {
-                try (Socket s = new Socket()) {
-                    // Το timeout των 1500ms λειτουργεί ως "φρένο" χωρίς sleep.
-                    // Αν ο Worker είναι κλειστός, η connect θα περιμένει 1.5 δευτερόλεπτο.
-                    s.connect(new java.net.InetSocketAddress(con.getHost(), con.getPort()), 1500);
-
-                    // Αν φτάσει εδώ, η σύνδεση πέτυχε
-                    activeWorkers++;
-                    connected = true;
-                    System.out.println("[MASTER] Found Worker at port: " + con.getPort());
-                } catch (IOException e) {
-                    attempts++;
-                    // Τυπώνουμε ανά 5 προσπάθειες για να ξέρεις ότι ο Master "ζει"
-                    if (attempts % 5 == 0) {
-                        System.err.println("[MASTER] Still waiting for Worker " + con.getPort() + "... (Attempt " + attempts + ")");
-                    }
-                }
-            }
+    private boolean isAlive(WorkerConnection con) {
+        try (Socket s = new Socket()) {
+            s.connect(
+                    new InetSocketAddress(con.getHost(), con.getPort()),
+                    1000
+            );
+            return true;
+        } catch (IOException e) {
+            return false;
         }
-        return activeWorkers;
+    }
+
+    private int getActive(){
+        int active =0;
+
+        for (WorkerConnection con: workers){
+            if (isAlive(con)) active++ ;
+        }
+
+
+
+        return active;
     }
 
     private boolean isFailure(String response) {//helper method

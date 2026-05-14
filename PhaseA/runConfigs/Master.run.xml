@@ -3,7 +3,7 @@
     <option name="MAIN_CLASS_NAME" value="Master.MasterServer" />
     <module name="DS_Project" />
     <option name="PROGRAM_PARAMETERS" value="C:\Users\filip\Desktop\work\Uni\semester6\distributed_sys\DS_Project\PhaseA\main\resources\workers.txt" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhaseA" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PhaseA/main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

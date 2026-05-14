@@ -98,7 +98,7 @@ public class ManagerClient {
 
                 // Έλεγχος για τα GET_PLAYER_STATS και GET_PROVIDER_STATS, για το αν υπάρχουν ή όχι
                 if (command.equals("GET_GAME_STATS") && !gameExists(id)) {
-                    System.out.println("\"" + id + "\" player does not exist.");
+                    System.out.println("\"" + id + "\" game does not exist.");
                     return;
                 } else if (command.equals("GET_PLAYER_STATS") && !playerExists(id)) {
                     System.out.println("\"" + id + "\" player does not exist.");
