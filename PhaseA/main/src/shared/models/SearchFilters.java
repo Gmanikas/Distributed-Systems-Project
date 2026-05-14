@@ -5,6 +5,7 @@ public class SearchFilters {
     private int minStars;
     private String riskLevel;
     private String betCategory;
+    private String gameName = null;
     private String providerName = null;
     
     public SearchFilters(int minStars, String riskLevel, String betCategory) {
@@ -13,9 +14,14 @@ public class SearchFilters {
         this.betCategory = betCategory;
     }
 
-    public SearchFilters(String providerName) {
-        this.providerName = providerName;
+    public SearchFilters(String name, boolean isGameName) { // Bazoume to boolean, wste na xexwrizei apo to providerName search
+        if (isGameName) {
+            this.gameName = name;
+        } else {
+            this.providerName = name;
+        }
     }
+
     
     public int getMinStars() {
         return minStars;
@@ -27,6 +33,10 @@ public class SearchFilters {
 
     public String getBetCategory() {
         return betCategory;
+    }
+
+    public String getGameName() {
+        return gameName;
     }
 
     public String getProviderName() {

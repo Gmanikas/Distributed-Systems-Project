@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://android.com"
+    android:id="@+id/rate"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -15,7 +16,7 @@
             android:layout_marginBottom="20dp">
 
         <TextView
-            android:id="@+id/tvPlayerId"
+            android:id="@+id/tvRatePlayerId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -23,13 +24,13 @@
             android:drawableStart="@drawable/ic_account_box"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:text="Player ID: User123"
+            android:text="Player ID: (Όνομα)"
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvBalance"
+                android:id="@+id/tvRateBalance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -126,6 +127,7 @@
         android:id="@+id/btnSubmitRating"
         android:layout_width="match_parent"
         android:layout_height="65dp"
+        android:onClick="handleRate"
         android:text="SUBMIT"
         android:backgroundTint="#5C6BC0"
         android:textColor="#000000"
@@ -150,6 +152,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:onClick="handleRateHomeButton"
         android:contentDescription="Home Button"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_home"

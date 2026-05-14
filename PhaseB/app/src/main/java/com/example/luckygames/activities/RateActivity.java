@@ -2,14 +2,11 @@ package com.example.luckygames.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
-
-import android.view.View;
-
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,23 +15,21 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.luckygames.ActivityHandler;
-import com.example.luckygames.CommunicationThread;
 import com.example.luckygames.R;
 import com.example.luckygames.shared.models.MyLinkedList;
 
-public class AddTokensActivity extends AppCompatActivity {
+public class RateActivity extends AppCompatActivity {
 
     private MyLinkedList<String> toDoList;
     private String playerId;
     private double overallBalance;
-    private String balance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_tokens);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.add_tokens), (v, insets) -> {
+        setContentView(R.layout.activity_rate);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rate), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -45,10 +40,10 @@ public class AddTokensActivity extends AppCompatActivity {
         toDoList = ActivityHandler.getInstance().getToDoList();
 
         playerId = ActivityHandler.getInstance().getPlayerId();
-        ((TextView) findViewById(R.id.tvPlayerId)).setText("PlayerId: " + playerId);
+        ((TextView) findViewById(R.id.tvRatePlayerId)).setText("PlayerId: " + playerId);
 
         overallBalance = ActivityHandler.getInstance().getOverallBalance();
-        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance + " FUN");
+        ((TextView) findViewById(R.id.tvRateBalance)).setText("Balance: " + overallBalance + " FUN");
     }
 
     @Override
@@ -61,34 +56,33 @@ public class AddTokensActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(AddTokensActivity.this, MainMenuActivity.class);
-                if (balance != null) { // Einai null otan patietai to HomeButton, xwris na exoume kanei kapoio ADD_BALANCE
-                    double temp = Double.parseDouble(balance);
-                    ActivityHandler.getInstance().addOverallBalance(temp);
-                }
+                Intent i = new Intent(RateActivity.this, MainMenuActivity.class);
                 startActivity(i);
             }
         });
     }
 
-    public void handleAddBalance(View v) {
-        EditText balanceView = findViewById(R.id.etAddAmount);
-        balance =  balanceView.getText().toString();
+    public void handleRate(View v) {
+        EditText gameNameView = findViewById(R.id.etRateGameName);
+        String gameName = gameNameView.getText().toString();
+
+        EditText starsView = findViewById(R.id.etRatingStars);
+        String stars = starsView.getText().toString();
 
         // Stelnoume thn entolh
         try {
-            toDoList.put("ADD_BALANCE|" + balance);
+            toDoList.put("RATE|" + gameName + "," + stars);
         } catch (InterruptedException e) {
             Log.d("ERROR when adding to toDoList", e.getMessage());
         }
-        Log.d("Add Balance", balance);
+        Log.d("Rate", gameName + "," + stars);
     }
 
-    public void handleAddTokensHomeButton(View v) {
+    public void handleRateHomeButton(View v) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(AddTokensActivity.this, "Returning to Menu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RateActivity.this, "Returning to Menu", Toast.LENGTH_SHORT).show();
             }
         });
         proceed();

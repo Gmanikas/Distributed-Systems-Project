@@ -285,7 +285,7 @@ public class WorkerThread extends Thread {
                     
                 case "GET_PROVIDER_STATS": 
                     String provName = payload;
-                    SearchFilters providerFilter = new SearchFilters(provName);
+                    SearchFilters providerFilter = new SearchFilters(provName, false);
                     List<Game> providerGames = filterGames(providerFilter);
 
                     Map<String, Double> provStatsMap = new HashMap<>();
@@ -414,15 +414,22 @@ public class WorkerThread extends Thread {
 
         List<Game> filtered = new ArrayList<>();
 
+        // Προϋποθέσεις για το φιλτράρισμα των παιχνιδιών
+        String gameName = search.getGameName();
+        String providerName = search.getProviderName();
+
         synchronized(games) {
             for (Game g : games.values()) {
 
-                // Προϋποθέσεις για το φιλτράρισμα των παιχνιδιών
-                String providerName = search.getProviderName();
-                if (providerName != null) { // Αν το χρησιμοποιούμε για να φιλτράρουμε Providers
-                    boolean name = g.getProvider().equalsIgnoreCase(providerName);
+                if (gameName != null) { // Αν το χρησιμοποιούμε για να φιλτράρουμε με βάσει το gameName
+                    boolean gameExists = g.getName().equalsIgnoreCase(gameName);
+                    if (gameExists) {
+                        filtered.add(g);
+                    }
 
-                    if (name) {
+                } else if (providerName != null) { // Αν το χρησιμοποιούμε για να φιλτράρουμε Providers
+                    boolean providerExists = g.getProvider().equalsIgnoreCase(providerName);
+                    if (providerExists) {
                         filtered.add(g);
                     }
 
