@@ -66,8 +66,10 @@ public class AddTokensActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Intent i = new Intent(AddTokensActivity.this, MainMenuActivity.class);
-                double temp = Double.parseDouble(balance);
-                ActivityHandler.getInstance().addOverallBalance(temp);
+                if (balance != null) { // Einai null otan patietai to HomeButton, xwris na exoume kanei kapoio ADD_BALANCE
+                    double temp = Double.parseDouble(balance);
+                    ActivityHandler.getInstance().addOverallBalance(temp);
+                }
                 startActivity(i);
             }
         });
@@ -92,7 +94,6 @@ public class AddTokensActivity extends AppCompatActivity {
                 Toast.makeText(AddTokensActivity.this, "Returning to Menu", Toast.LENGTH_SHORT).show();
             }
         });
-        //communicationThread.makeToast("Returning to Menu");
         proceed();
     }
 

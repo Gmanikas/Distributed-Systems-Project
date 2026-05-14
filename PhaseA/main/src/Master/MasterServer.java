@@ -191,7 +191,7 @@ public class MasterServer {
                     }
 
                     playerBalance.put(playerId, amount + current);
-                    return "SUCCESS|Balance Updated";
+                    return "OK|Balance updated";
                 }
             } catch (NumberFormatException e) {
                 return "ERROR|Invalid amount format";

@@ -63,8 +63,8 @@ public class ResultsActivity extends AppCompatActivity {
 
 
         Intent i = getIntent();
-        String gameString = i.getStringExtra("Game");
-        games = gson.fromJson(gameString, Game[].class);
+        String gamesString = i.getStringExtra("Games");
+        games = gson.fromJson(gamesString, Game[].class); // To Game[] ta metatrepei se ArrayList<Game>, wste na kaluptoume thn periptwsh apostols parapanw apo enos game
         gamesList = Arrays.asList(games);
 
         RecyclerView results = findViewById(R.id.rvResults);
