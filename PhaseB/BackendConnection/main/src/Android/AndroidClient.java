@@ -57,6 +57,23 @@ public class AndroidClient {
         if (payload == null || payload.isEmpty()) {
             System.err.println("No filters where received.");
             response = "ERROR|No search filters entered";
+
+        } else if (!payload.contains(",")) {            
+            String gameName = payload.trim();
+            SearchFilters searchFilters = new SearchFilters(gameName, true);
+
+            System.out.println("MapReduce Search in progress for " + androidThread.getCurrentPlayerId() + "...");
+
+            String searchResults = sendSearch(searchFilters);
+
+            if (searchResults.equals("[]")) {
+                    System.out.println("\n--- No " + gameName + " game found ---\n");
+                    response = "OK|No game found";
+                } else {
+                    System.out.println("\n--- [Search Results] ---\n" + searchResults + "\n");
+                    response = "OK|" + searchResults;
+                }
+
         } else {
             String[] data = payload.split(",", -1);
             
@@ -86,7 +103,6 @@ public class AndroidClient {
                     response = "ERROR|Invalid stars format";
                 }
             }
-
         }
 
         return response;
@@ -318,32 +334,36 @@ public class AndroidClient {
                     String gameName = data[0].trim();
                     int stars = Integer.parseInt(data[1].trim());
 
-                    boolean gameExists = gameExists(gameName);
+                    if (stars >= 1 && stars <=5) {
+                        boolean gameExists = gameExists(gameName);
 
-                    if (gameExists) {
-                        String currentPlayer = androidThread.getCurrentPlayerId();
+                        if (gameExists) {
+                            String currentPlayer = androidThread.getCurrentPlayerId();
 
-                        GameRating gameRating = new GameRating(currentPlayer, gameName, stars);
+                            GameRating gameRating = new GameRating(currentPlayer, gameName, stars);
 
-                        String result = sendRating(gameRating);
-                        String[] info = result.split("\\|");
+                            String result = sendRating(gameRating);
+                            String[] info = result.split("\\|");
 
-                        if (result.startsWith("OK|")) {
-                            String averageGameRating = info[1];
+                            if (result.startsWith("OK|")) {
+                                String averageGameRating = info[1];
 
-                            String message = stars + " star rating submitted for game: " + gameName + "\n" + averageGameRating;
-                            System.out.println(message);
+                                String message = stars + " star rating submitted for " + gameName + "\n" + averageGameRating;
+                                System.out.println(message);
 
-                            response = "OK|" + message;
+                                response = "OK|" + message;
+                            } else {
+                                System.err.println(info[1]);
+                                response = result;
+                            }
                         } else {
-                            System.err.println(info[1]);
-                            response = result;
+                            System.out.println(gameName + " game does not exist");
+                            response = "ERROR|Game not found";
                         }
                     } else {
-                        System.out.println(gameName + " game does not exist");
-                        response = "ERROR|Game not found";
+                        System.err.println("Stars must range from 1 to 5");
+                        response = "ERROR|Stars must range from 1 to 5";
                     }
-
 
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid stars rating format");

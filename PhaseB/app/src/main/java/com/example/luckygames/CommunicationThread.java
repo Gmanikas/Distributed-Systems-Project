@@ -1,5 +1,9 @@
 package com.example.luckygames;
 
+import com.example.luckygames.activities.FindGameActivity;
+import com.example.luckygames.activities.LossActivity;
+import com.example.luckygames.activities.PlayActivity;
+import com.example.luckygames.activities.RateActivity;
 import com.example.luckygames.activities.ResultsActivity;
 import com.example.luckygames.activities.SearchActivity;
 
@@ -20,6 +24,7 @@ import java.io.IOException;
 import com.example.luckygames.activities.AddTokensActivity;
 import com.example.luckygames.activities.ChangePlayerActivity;
 import com.example.luckygames.activities.LoginActivity;
+import com.example.luckygames.activities.WinActivity;
 import com.example.luckygames.shared.models.MyLinkedList;
 
 
@@ -81,13 +86,11 @@ public class CommunicationThread extends Thread {
                     switch (result) {
                         case "OK":
                             switch (typeOfResult) {
-                                case "No games found matching the criteria": // SEARCH
-                                    // Pame sto activity_results
-                                    makeToast("No games found matching the criteria");
+                                case "No game found": // SEARCH
+                                    makeToast("No game found");
                                     break;
-
-                                case "LOST": // PLAY
-                                    // Deixnoume to apotelesma se neo activity
+                                case "No games found matching the criteria": // SEARCH
+                                    makeToast("No games found matching the criteria");
                                     break;
 
                                 case "Balance updated": // ADD_BALANCE
@@ -113,18 +116,33 @@ public class CommunicationThread extends Thread {
                                             ((ChangePlayerActivity) UI).proceed();
                                         }
 
-                                    } else if (typeOfResult.startsWith("[")) { // SEARCH //O monos tropos na elenxoume an yparxei -
+                                    } else if (typeOfResult.startsWith("[")) { // SEARCH
                                         // Pame sto activity_results
-                                        if (UI instanceof SearchActivity) {
+                                        if (UI instanceof SearchActivity) { // Periptwsh pou eimaste sto SearchActivity
                                             ((SearchActivity) UI).proceed(ResultsActivity.class, typeOfResult);
+                                        } else if (UI instanceof FindGameActivity) { // Periptvsh pou eimaste sto FindGameActivity
+                                            ((FindGameActivity) UI).proceed(PlayActivity.class, typeOfResult);
                                         }
 
-                                    } else if (typeOfResult.startsWith("WON")) { // PLAY // Analogws
+                                    } else if (typeOfResult.startsWith("WON")) { // PLAY
                                         String winAmount = typeOfResult.replace("WON,", "");
                                         // Deixnoume to apotelesma se neo activity
+                                        if (UI instanceof PlayActivity) {
+                                            ((PlayActivity) UI).proceed(WinActivity.class, winAmount);
+                                        }
+                                    } else if (typeOfResult.startsWith("LOST")) { // PLAY
+                                        // Deixnoume to apotelesma se neo activity
+                                        if (UI instanceof PlayActivity) {
+                                            // Xrhsimopoioume to command, to opoio periexei to betAmount
+                                            String betAmount = command.substring(command.lastIndexOf(",") + 1);
+                                            ((PlayActivity) UI).proceed(LossActivity.class, betAmount);
+                                        }
 
-                                    } else if (typeOfResult.contains("star rating")) { // RATE // Analogws
+                                    } else if (typeOfResult.contains("star rating")) { // RATE
                                         makeToast(typeOfResult);
+                                        if (UI instanceof RateActivity) {
+                                            ((RateActivity) UI).proceed();
+                                        }
                                     }
                                     break;
                             }
@@ -192,14 +210,16 @@ public class CommunicationThread extends Thread {
                                     makeToast("Game entered does not exist");
                                     break;
                                 case "Invalid stars rating format": // RATE
-                                    makeToast("Invalid stars rating format");
+                                    makeToast("Invalid rating format");
                                     break;
                                 case "Rating failed to be submitted": // RATE
-                                    makeToast("Conection error. Try again");
+                                    makeToast("Connection error. Try again");
                                     break;
                                 case "Something failed while trying to fetch average rating for game": // RATE
                                     makeToast("Connection error. Try again");
                                     break;
+                                case "Stars must range from 1 to 5":
+                                    makeToast("Stars must range from 1 to 5");
 
                                 default:
                                     if (typeOfResult.startsWith("Deposit denied. Max limit is")) { // ADD_BALANCE

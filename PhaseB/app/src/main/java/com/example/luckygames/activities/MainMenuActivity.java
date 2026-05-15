@@ -21,10 +21,6 @@ import com.example.luckygames.shared.models.MyLinkedList;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    private CommunicationThread communicationThread;
-
-    private MyLinkedList<String> toDoList;
-
     private String playerId;
     private double overallBalance;
 
@@ -39,16 +35,12 @@ public class MainMenuActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Sundesh me to Communication Thread
-        ActivityHandler.getInstance().getCommunicationThread().setCurrentUI(this);
-        toDoList = ActivityHandler.getInstance().getToDoList();
 
-        //Intent i = getIntent();
         playerId = ActivityHandler.getInstance().getPlayerId();
         ((TextView) findViewById(R.id.tvPlayerId)).setText("PlayerId: " + playerId);
 
         overallBalance = ActivityHandler.getInstance().getOverallBalance();
-        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance);
+        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance + " FUN");
 
     }
 
@@ -76,7 +68,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void handlePlayGame(View v) {
-
+        this.proceed(FindGameActivity.class, null);
     }
 
     public void handleAddTokens(View v) {
@@ -84,7 +76,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void handleRateGame(View v) {
-
+        this.proceed(RateActivity.class, null);
     }
 
     public void handleLogOut(View v) {

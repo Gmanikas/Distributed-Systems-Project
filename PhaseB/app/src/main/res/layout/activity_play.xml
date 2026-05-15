@@ -50,32 +50,39 @@
                 android:drawablePadding="8dp" />
         </RelativeLayout>
 
-        <!-- GAME LOGO -->
-        <ImageView
-            android:id="@+id/ivGameLogo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/cyber_poker"
-            android:layout_marginBottom="8dp"
-            android:scaleType="centerInside"
-            android:contentDescription="Game Logo" />
-
-        <TextView
-            android:id="@+id/tvGameTitle"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvGamePlay"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cyber Poker"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="#1A237E" />
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:id="@+id/tvGameDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Risk: MEDIUM | Jackpot: 20x"
-            android:textColor="#757575"
-            android:layout_marginBottom="30dp"/>
+<!--        &lt;!&ndash; GAME LOGO &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/ivGameLogo"-->
+<!--            android:layout_width="120dp"-->
+<!--            android:layout_height="120dp"-->
+<!--            android:src="@drawable/cyber_poker"-->
+<!--            android:layout_marginBottom="8dp"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:contentDescription="Game Logo" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvGameTitle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Cyber Poker"-->
+<!--            android:textSize="26sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#1A237E" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvGameDetails"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Risk: MEDIUM | Jackpot: 20x"-->
+<!--            android:textColor="#757575"-->
+<!--            android:layout_marginBottom="30dp"/>-->
 
         <!-- INPUT SECTION -->
         <TextView
@@ -102,6 +109,7 @@
             android:id="@+id/btnPlayAction"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:onClick="handleBet"
             android:text="🎰  BET NOW!"
             android:backgroundTint="#1A237E"
             android:textColor="#FFFFFF"
@@ -131,6 +139,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_home"
+        android:onClick="handlePlayHomeButton"
         android:contentDescription="Home Button"
         android:tint="#5C6BC0" />
 
@@ -145,12 +154,12 @@
 
         <include
             android:id="@+id/includeWinCard"
-            layout="@layout/layout_win_card"
+            layout="@layout/activity_win"
             android:visibility="gone" />
 
         <include
             android:id="@+id/includeLossCard"
-            layout="@layout/layout_loss_card"
+            layout="@layout/activity_loss"
             android:visibility="gone" />
     </LinearLayout>
 

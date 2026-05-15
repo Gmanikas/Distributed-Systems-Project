@@ -28,8 +28,6 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private CommunicationThread communicationThread;
-
     private MyLinkedList<String> toDoList;
     private String playerId;
     private double overallBalance;
@@ -54,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tvPlayerId)).setText("PlayerId: " + playerId);
 
         overallBalance = ActivityHandler.getInstance().getOverallBalance();
-        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance);
+        ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance + " FUN");
     }
 
     protected void onResume() {

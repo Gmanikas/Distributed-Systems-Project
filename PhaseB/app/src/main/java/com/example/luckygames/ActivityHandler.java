@@ -47,6 +47,10 @@ public class ActivityHandler {
         this.overallBalance += balance;
     }
 
+    public void subtractOverallBalance(double balance) {
+        this.overallBalance -= balance;
+    }
+
     public double getOverallBalance() {
         return this.overallBalance;
     }

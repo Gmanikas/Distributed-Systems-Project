@@ -20,10 +20,7 @@ import com.example.luckygames.shared.models.MyLinkedList;
 
 public class ChangePlayerActivity extends AppCompatActivity {
 
-    private CommunicationThread communicationThread;
-
     private MyLinkedList<String> toDoList;
-
     String playerId;
 
     @Override

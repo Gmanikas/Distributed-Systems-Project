@@ -14,6 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LuckyGames">
         <activity
+            android:name=".activities.RateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LossActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.WinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.FindGameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PlayActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ResultsActivity"
             android:exported="false" />
         <activity
