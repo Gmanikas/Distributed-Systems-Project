@@ -78,7 +78,6 @@ public class WorkerThread extends Thread {
             String command = data[0].trim().toUpperCase();
             String requestId = data[1].trim();
             String payload = data[2].trim();
-
             switch(command) {
                 case "ADD_GAME":
                     try {

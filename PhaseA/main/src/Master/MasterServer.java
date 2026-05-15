@@ -280,25 +280,45 @@ public class MasterServer {
             }
 
             int idx = calculateWorkerFromPayload(payload);
+            WorkerConnection primary = workers.get(idx);
             int replicaIdx = (idx + 1) % workers.size();
-            String workerResponse = forwardToWorker(workers.get(idx), workerRequest);
+            WorkerConnection replica = workers.get(replicaIdx);
+
+            String response="";
+            try {
+                response  = forwardToWorker(primary, workerRequest);
+                System.out.println(response);
+                System.out.println("Successfully reached primary Worker "+idx);
+
+            } catch (IOException e){
+                System.out.println("Failed to reach primary Worker "+idx+". Trying replica...");
+                try {
+                    response = forwardToWorker(replica, workerRequest);
+                    System.out.println(response);
+                    System.out.println("Successfully reached replica Worker "+replicaIdx);
+
+                } catch (IOException ex){
+                    System.out.println("Failed to reach both primary Worker "+idx+" and replica Worker " +
+                            +replicaIdx+".");
+                }
+            }
 
             // ΔΙΟΡΘΩΣΗ: Αν ο Worker αποτύχει, επιστρέφουμε τα χρήματα (Refund)
-            if (workerResponse == null || workerResponse.startsWith("ERROR") || workerResponse.equals("OFFLINE")) {
+            if (response.isEmpty()) {
                 synchronized (playerBalance) {
                     playerBalance.put(pid, playerBalance.get(pid) + bet);
                 }
-                return workerResponse;
+                return response;
             }
 
             try {
-                double winAmount = Double.parseDouble(workerResponse);
+                double winAmount = Double.parseDouble(response);
                 if (winAmount > 0) {
                     synchronized (playerBalance) {
                         playerBalance.put(pid, playerBalance.get(pid) + winAmount);
                     }
                 }
-                return workerResponse;
+                return response;
             } catch (NumberFormatException e) {
                 // Refund σε περίπτωση κακού format απάντησης
                 synchronized (playerBalance) {

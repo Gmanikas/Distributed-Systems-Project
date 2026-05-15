@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c08fab72-dca2-4498-a7d7-9b26c6ad1cca" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Master/MasterServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Master/MasterServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhaseA/main/src/Worker/WorkerThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/src/Worker/WorkerThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PhaseA/main/target/production/DS_Project/Master/MasterServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/PhaseA/main/target/production/DS_Project/Master/MasterServer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,47 +42,61 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Manager.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Master.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Player.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PlayerMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Reducer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.ReducerServer.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Worker 6001.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Worker 6002.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Worker 6003.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Worker 6004.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Worker 6005.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Worker.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/filip/Desktop/work/Uni/semester6/distributed_sys/DS_Project&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.JAVA&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Manager.executor": "Run",
+    "Application.Master.executor": "Run",
+    "Application.Player.executor": "Run",
+    "Application.PlayerMain.executor": "Run",
+    "Application.Reducer.executor": "Run",
+    "Application.ReducerServer.executor": "Run",
+    "Application.SRGServer.executor": "Run",
+    "Application.Worker 6001.executor": "Run",
+    "Application.Worker 6002.executor": "Run",
+    "Application.Worker 6003.executor": "Run",
+    "Application.Worker 6004.executor": "Run",
+    "Application.Worker 6005.executor": "Run",
+    "Application.Worker.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/filip/Desktop/work/Uni/semester6/distributed_sys/DS_Project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.sourceCode.JAVA",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Application.Reducer">
+}]]></component>
+  <component name="RunManager" selected="Application.SRGServer">
     <configuration name="PlayerMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Player.PlayerMain" />
       <module name="DS_Project" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="Player.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SRGServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="SRG.SRGServer" />
+      <module name="DS_Project" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="SRG.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -104,11 +121,13 @@
       <item itemvalue="Application.Worker 6002" />
       <item itemvalue="Application.Worker 6003" />
       <item itemvalue="Application.Worker 6004" />
+      <item itemvalue="Application.SRGServer" />
       <item itemvalue="Application.PlayerMain" />
       <item itemvalue="Compound.ALL WORKERS" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.SRGServer" />
         <item itemvalue="Application.PlayerMain" />
       </list>
     </recent_temporary>
@@ -128,6 +147,8 @@
       <workItem from="1778617015480" duration="1305000" />
       <workItem from="1778702691033" duration="3517000" />
       <workItem from="1778744773966" duration="5544000" />
+      <workItem from="1778789773021" duration="1175000" />
+      <workItem from="1778866711714" duration="2045000" />
     </task>
     <servers />
   </component>
