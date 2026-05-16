@@ -87,9 +87,12 @@ public class CommunicationThread extends Thread {
                         case "OK":
                             switch (typeOfResult) {
                                 case "No game found": // SEARCH
-                                    makeToast("No game found");
+                                    makeToast("Game entered doesn't exist");
                                     break;
                                 case "No games found matching the criteria": // SEARCH
+                                    if (UI instanceof SearchActivity) {
+                                        ((SearchActivity) UI).setLoadingStatus(false);
+                                    }
                                     makeToast("No games found matching the criteria");
                                     break;
 

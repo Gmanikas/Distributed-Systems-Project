@@ -39,7 +39,7 @@ public class AndroidClient {
         } else {
             androidThread.setCurrentPlayerId(playerId);
             double balance = getBalance();
-            if (balance == 0.0) {
+            if (balance < 0.0) {
                 response = "ERROR|Balance was not retrieved";
             } else {
                 response = "OK|PlayerId submitted, " + Double.toString(balance);
@@ -312,7 +312,7 @@ public class AndroidClient {
         } catch (IOException e) {
             System.err.println("ERROR while sending GET_BALANCE request to Master. Details: " + e.getMessage());
         }
-        return 0.0;
+        return -1.0;
     }
 
     

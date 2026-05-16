@@ -1,0 +1,96 @@
+{
+  "version": "0.2.0",
+  "launch": [
+    {
+      "label": "Compile Phase A",
+      "type": "shell",
+      "command": "javac -d target/classes src/Manager/*.java src/Master/*.java src/Reducer/*.java src/SRG/*.java src/Worker/*.java src/shared/models/*.java -cp \"lib/*;src\"",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseA/main"
+      },
+      "problemMatcher": ["$javac"]
+    },
+    {
+      "label": "Compile Phase B",
+      "type": "shell",
+      "command": "javac -d target/classes src/Android/*.java src/shared/models/*.java -cp \"lib/*;src\"",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseB/BackendConnection/main"
+      },
+      "problemMatcher": ["$javac"]
+    },
+
+    {
+      "label": "Manager Server",
+      "type": "shell",
+      "command": "java -cp \"lib/*;target/classes\" Manager.ManagerClient",
+      "dependsOn": "Compile Phase A",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseA/main"
+      }
+    },
+    {
+      "label": "Master Server",
+      "type": "shell",
+      "command": "java -cp \"lib/*;target/classes\" Master.MasterServer resources/workers.txt",
+      "dependsOn": "Compile Phase A",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseA/main"
+      }
+    },
+    {
+      "label": "Reducer Server",
+      "type": "shell",
+      "command": "java -cp \"lib/*;target/classes\" Reducer.ReducerServer",
+      "dependsOn": "Compile Phase A",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseA/main"
+      }
+    },
+    {
+      "label": "SRG Server",
+      "type": "shell",
+      "command": "java -cp \"lib/*;target/classes\" SRG.SRGServer",
+      "dependsOn": "Compile Phase A",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseA/main"
+      }
+    },
+    {
+      "label": "Worker Server",
+      "type": "shell",
+      "command": "java -cp \"lib/*;target/classes\" Worker.Worker 6001 6002 6003 6004 6005",
+      "dependsOn": "Compile Phase A",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseA/main"
+      }
+    },
+    {
+      "label": "Android Server",
+      "type": "shell",
+      "command": "java -cp \"lib/*;target/classes\" Android.AndroidServer",
+      "dependsOn": "Compile Phase B",
+      "options": {
+        "cwd": "${workspaceFolder}/PhaseB/BackendConnection/main"
+      }
+    },
+
+    
+    {
+      "label": "🚀 LAUNCH ALL SERVERS",
+      "dependsOn": [
+        "Reducer Server",
+        "SRG Server",
+        "Worker Server",
+        "Master Server",
+        "Manager Server",
+        "Android Server"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

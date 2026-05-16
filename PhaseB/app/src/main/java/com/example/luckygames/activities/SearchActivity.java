@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Spinner;
@@ -32,6 +33,7 @@ public class SearchActivity extends AppCompatActivity {
     private String playerId;
     private double overallBalance;
     String message;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,8 @@ public class SearchActivity extends AppCompatActivity {
 
         overallBalance = ActivityHandler.getInstance().getOverallBalance();
         ((TextView) findViewById(R.id.tvBalance)).setText("Balance: " + overallBalance + " FUN");
+
+        progressBar = findViewById(R.id.searchProgressBar);
     }
 
     protected void onResume() {
@@ -90,7 +94,8 @@ public class SearchActivity extends AppCompatActivity {
         if (riskLevel.equals("-")) {messageBuilder.add("a risk level");}
 
         if (messageBuilder.isEmpty()) {
-            message = "Searching...";
+            // Progress bar
+            setLoadingStatus(true);
             try {
                 toDoList.put("SEARCH|" + minimumStars + "," + category + "," + riskLevel);
             } catch (InterruptedException e) {
@@ -104,14 +109,14 @@ public class SearchActivity extends AppCompatActivity {
                 message = message.substring(0, lastComma) + " and" + message.substring(lastComma + 1);
             }
             message = "Must select " + message;
-        }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(SearchActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(SearchActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void handleSearchHomeButton(View v) {
@@ -122,6 +127,16 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         proceed(MainMenuActivity.class, null);
+    }
+
+    public void setLoadingStatus(boolean isLoading) {
+        runOnUiThread(() -> {
+            if (isLoading) {
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
 }

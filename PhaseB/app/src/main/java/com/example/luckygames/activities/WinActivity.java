@@ -30,13 +30,15 @@ public class WinActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         String winAmountString = i.getStringExtra("Result");
+        String betAmountString = i.getStringExtra("Bet");
 
         if (winAmountString != null) {
             double winAmount = Double.parseDouble(winAmountString);
+            double betAmount = Double.parseDouble(betAmountString);
             // Prosthetoume to kerdos
             ActivityHandler.getInstance().addOverallBalance(winAmount);
             // To emfanizoume sto .xml
-            ((TextView) findViewById(R.id.tvWinAmount)).setText(winAmount + " FUN Added to your Balance");
+            ((TextView) findViewById(R.id.tvWinAmount)).setText(winAmount - betAmount + " FUN Added to your Balance");
         }
 
 

@@ -31,14 +31,8 @@ public class LossActivity extends AppCompatActivity {
         });
 
         Intent i = getIntent();
-        String lossAmountString = i.getStringExtra("Result");
-        if (lossAmountString != null) {
-            double lossAmount = Double.parseDouble(lossAmountString);
-            // Afairoume th zhmia
-            ActivityHandler.getInstance().subtractOverallBalance(lossAmount);
-            // To emfanizoume sto .xml
-            ((TextView) findViewById(R.id.tvLossAmount)).setText(lossAmount + " FUN removed from your Balance");
-        }
+        String lossAmount = i.getStringExtra("Result");
+        ((TextView) findViewById(R.id.tvLossAmount)).setText(lossAmount + " FUN removed from your Balance");
 
         double overallBalance = ActivityHandler.getInstance().getOverallBalance();
         ((TextView) findViewById(R.id.tvNewBalanceLoss)).setText("New Balance: " + overallBalance);

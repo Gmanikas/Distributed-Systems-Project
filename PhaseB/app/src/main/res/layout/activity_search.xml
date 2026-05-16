@@ -105,6 +105,7 @@
             android:entries="@array/category"
             android:background="@android:drawable/btn_dropdown" />
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,20 +122,37 @@
             android:entries="@array/risk_level"
             android:background="@android:drawable/btn_dropdown" />
 
-        <Button
-            android:id="@+id/btnSubmitSearch"
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:onClick="handleSearch"
-            android:text="SUBMIT"
-            android:backgroundTint="#5C6BC0"
-            android:textColor="#000000"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:gravity="center" />
+            android:layout_height="60dp">
+
+            <Button
+                android:id="@+id/btnSubmitSearch"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:onClick="handleSearch"
+                android:text="SUBMIT"
+                android:backgroundTint="#5C6BC0"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:gravity="center" />
+
+            <ProgressBar
+                android:id="@+id/searchProgressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="16dp"
+                android:indeterminateTint="#FFFFFF"
+                android:visibility="gone" />
+        </FrameLayout>
     </LinearLayout>
+
+
 
          <!-- HOME BUTTON (ΜΕΤΑΚΙΝΗΜΕΝΟ ΠΡΟΣ ΤΑ ΠΑΝΩ) -->
     <View

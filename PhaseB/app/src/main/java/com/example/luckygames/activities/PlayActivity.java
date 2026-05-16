@@ -35,6 +35,7 @@ public class PlayActivity extends AppCompatActivity {
     private final Gson gson = new Gson();
     private Game[] game;
     private List<Game> gameList;
+    private String betAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,11 @@ public class PlayActivity extends AppCompatActivity {
                 Intent i = new Intent(PlayActivity.this, activityClass);
                 // Apofasizoume an tha perasoume data h oxi
                 if (result != null) {
+                    // Gia to win
                     i.putExtra("Result", result);
+                    i.putExtra("Bet", betAmount);
+                } else if (activityClass == LossActivity.class) {
+                    i.putExtra("Result", betAmount);
                 }
                 startActivity(i);
             }
@@ -94,8 +99,15 @@ public class PlayActivity extends AppCompatActivity {
 
     public void handleBet(View v) {
         EditText betAmountView = findViewById(R.id.etBetAmount);
-        String betAmount = betAmountView.getText().toString();
+        betAmount = betAmountView.getText().toString();
 
+        try {
+            // Afairoume th zhmia
+            double bet = Double.parseDouble(betAmount);
+            ActivityHandler.getInstance().subtractOverallBalance(bet);
+        } catch (NumberFormatException e) {
+            Log.d("ERROR when converting String betAmount to double", e.getMessage());
+        }
         try{
             toDoList.put("PLAY|" + game[0].getName() + "," + betAmount);
         } catch (InterruptedException e) {
