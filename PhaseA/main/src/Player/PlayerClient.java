@@ -99,8 +99,8 @@ public class PlayerClient {
             String response = in.readLine();
 
             // Η απάντηση είναι πλέον SUCCESS|Balance:X ή ERROR|Limit exceeded
-            if (response != null && response.startsWith("SUCCESS")) {
-                System.out.println("[BALANCE UPDATED]: " + response.replace("SUCCESS|", ""));
+            if (response != null && response.startsWith("OK")) {
+                System.out.println("[BALANCE UPDATED]: " + response.replace("OK|", ""));
                 return true;
             } else {
                 if (response != null) {
